@@ -13,19 +13,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>AnestePro: Calculador Quirúrgico Avanzado</title>
     
-    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
-    <link rel="icon" type="image/png" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
-    
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
-    
-    <link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
-
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#020617"> <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="theme-color" content="#020617">
+
+    <link rel="icon" type="image/png" sizes="512x512" href="logo.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+    <link rel="shortcut icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Optimización táctil avanzada para mitigar rebotes y selecciones accidentales */
+        /* Optimización táctil avanzada */
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
         body { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
@@ -326,7 +326,6 @@
     </div>
 
     <script>
-        // --- CONTROL DE CAMBIO DE VENTANAS (TABS) ---
         function cambiarPestana(id) {
             document.getElementById('pestana-datos').classList.add('hidden');
             document.getElementById('pestana-fluidos').classList.add('hidden');
@@ -353,7 +352,6 @@
             }
         }
 
-        // --- MICRO-NOTAS EXPLICATIVAS (DOCENCIA) ---
         function alertaDocente(tipo) {
             if (tipo === 'tof') {
                 alert("Docencia AnestePro:\n\nUn cociente TOF < 0.9 se asocia firmemente con debilidad de los músculos faríngeos, colapso de la vía aérea superior e incompetencia del esfínter esofágico, multiplicando el riesgo de microaspiraciones y complicaciones respiratorias en la URPA.");
@@ -362,7 +360,6 @@
             }
         }
 
-        // --- EVALUACIÓN DE LA BARRA DE PROGRESO DE EXTUBACIÓN ---
         function evaluarProgreso() {
             const checkboxes = document.querySelectorAll('.chk-extub');
             let marcados = 0;
@@ -377,4 +374,148 @@
                 status.className = "mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-emerald-500 text-slate-950 shadow-lg animate-pulse";
                 status.innerText = "✅ PACIENTE APTO PARA EXTUBACIÓN SEGURA";
             } else {
-                status.className = "
+                status.className = "mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-amber-950/30 border border-amber-500/30 text-amber-400";
+                status.innerText = "⚠️ EVALUACIÓN EN PROGRESO";
+            }
+        }
+
+        function calcularTodo() {
+            const sexo = document.getElementById('sexo').value;
+            const talla = parseFloat(document.getElementById('talla').value) || 0;
+            const pesoReal = parseFloat(document.getElementById('pesoReal').value) || 0;
+            const ayuno = parseFloat(document.getElementById('ayuno').value) || 0;
+            const tasaInsensibles = parseFloat(document.getElementById('tipoCirugia').value) || 0;
+            
+            const htoActual = parseFloat(document.getElementById('htoActual').value) || 0;
+            const htoMin = parseFloat(document.getElementById('htoMin').value) || 0;
+            const sangradoEstimado = parseFloat(document.getElementById('sangradoEstimado').value) || 0;
+
+            const frActual = parseFloat(document.getElementById('frActual').value) || 0;
+            const vtActual = parseFloat(document.getElementById('vtActual').value) || 0;
+            const paco2Actual = parseFloat(document.getElementById('paco2Actual').value) || 0;
+            const paco2Deseada = parseFloat(document.getElementById('paco2Deseada').value) || 0;
+
+            const imcObjetivo = (sexo === 'M') ? 22 : 21.5;
+            const pesoIdeal = (talla * talla) * imcObjetivo;
+            const pesoCorregido = pesoIdeal + 0.25 * (pesoReal - pesoIdeal);
+            const imcReal = pesoReal / (talla * talla);
+
+            document.getElementById('out-pi').innerText = pesoIdeal.toFixed(2);
+            document.getElementById('out-pc').innerText = pesoCorregido.toFixed(2);
+
+            const vtMinExtubacion = Math.round(pesoIdeal * 5);
+            document.getElementById('req-vt-extub').innerText = vtMinExtubacion;
+
+            let pesoCalculo = (imcReal >= 30) ? pesoCorregido : pesoReal;
+
+            const factorVSC = (sexo === 'M') ? 70 : 60;
+            const vsc = pesoReal * factorVSC;
+            document.getElementById('out-vsc').innerText = Math.round(vsc);
+
+            let psp = 0;
+            if (htoActual > 0) {
+                psp = ((htoActual - htoMin) / htoActual) * vsc;
+            }
+            const pspRedondeada = Math.max(0, Math.round(psp));
+            document.getElementById('resultado-psp').innerText = pspRedondeada + " mL";
+
+            const contenedorPsp = document.getElementById('contenedor-psp');
+            const alertaPsp = document.getElementById('alerta-psp');
+
+            if (sangradoEstimado === 0) {
+                contenedorPsp.className = "p-3 rounded-lg text-center transition-all duration-300 grid grid-cols-2 gap-2 bg-slate-950/40 border border-slate-800 text-slate-300";
+                alertaPsp.className = "rounded flex items-center justify-center text-xs font-bold px-2 py-1 bg-slate-900 border border-slate-700 text-slate-400";
+                alertaPsp.innerText = "Sin Sangrado";
+            } else if (sangradoEstimado <= pspRedondeada) {
+                contenedorPsp.className = "p-3 rounded-lg text-center transition-all duration-300 grid grid-cols-2 gap-2 bg-emerald-950/40 border border-emerald-500/40 text-emerald-200";
+                alertaPsp.className = "rounded flex items-center justify-center text-xs font-black uppercase px-2 py-1 bg-emerald-500 text-slate-950 shadow-md";
+                alertaPsp.innerText = "Dentro de PSP";
+            } else {
+                contenedorPsp.className = "p-3 rounded-lg text-center transition-all duration-300 grid grid-cols-2 gap-2 bg-red-950/60 border border-red-500/60 text-red-200 animate-pulse";
+                alertaPsp.className = "rounded flex items-center justify-center text-xs font-black uppercase px-2 py-1 bg-red-500 text-white shadow-lg";
+                alertaPsp.innerText = "⚠️ EXCEEDE PSP";
+            }
+
+            let mantenimiento = 0;
+            if (pesoCalculo <= 10) {
+                mantenimiento = pesoCalculo * 4;
+            } else if (pesoCalculo <= 20) {
+                mantenimiento = 40 + (pesoCalculo - 10) * 2;
+            } else {
+                mantenimiento = 60 + (pesoCalculo - 20) * 1;
+            }
+            mantenimiento = Math.round(mantenimiento);
+
+            const insensiblesPorHora = Math.round(tasaInsensibles * pesoCalculo);
+            const deficitAyunoTotal = mantenimiento * ayuno;
+            const ayunoH1 = Math.round(deficitAyunoTotal * 0.50);
+            const ayunoH2 = Math.round(deficitAyunoTotal * 0.25);
+            const ayunoH3 = Math.round(deficitAyunoTotal * 0.25);
+
+            document.getElementById('mant-h1').innerText = mantenimiento;
+            document.getElementById('mant-h2').innerText = mantenimiento;
+            document.getElementById('mant-h3').innerText = mantenimiento;
+
+            document.getElementById('ins-h1').innerText = insensiblesPorHora;
+            document.getElementById('ins-h2').innerText = insensiblesPorHora;
+            document.getElementById('ins-h3').innerText = insensiblesPorHora;
+
+            document.getElementById('ayu-h1').innerText = ayunoH1;
+            document.getElementById('ayu-h2').innerText = ayunoH2;
+            document.getElementById('ayu-h3').innerText = ayunoH3;
+
+            document.getElementById('tot-h1').innerText = mantenimiento + insensiblesPorHora + ayunoH1;
+            document.getElementById('tot-h2').innerText = mantenimiento + insensiblesPorHora + ayunoH2;
+            document.getElementById('tot-h3').innerText = mantenimiento + insensiblesPorHora + ayunoH3;
+
+            const mantTotalConst = mantenimiento * 3;
+            const insTotalConst = insensiblesPorHora * 3;
+            document.getElementById('out-mant-tot').innerText = mantTotalConst;
+            document.getElementById('out-ins-tot').innerText = insTotalConst;
+            document.getElementById('out-def-ayu').innerText = deficitAyunoTotal;
+            document.getElementById('out-bal-tot').innerText = mantTotalConst + insTotalConst + deficitAyunoTotal;
+
+            const veActual = (frActual * vtActual) / 1000;
+            document.getElementById('out-ve-actual').innerText = veActual.toFixed(2) + " L/min";
+
+            let vtRelativo = 0;
+            if (pesoIdeal > 0) { vtRelativo = vtActual / pesoIdeal; }
+            document.getElementById('out-vt-relativo').innerText = vtRelativo.toFixed(1) + " mL/kg";
+
+            const cardVtRelativo = document.getElementById('card-vt-relativo');
+            if (vtRelativo > 8) {
+                cardVtRelativo.className = "p-3 rounded-lg border border-red-500/50 text-center bg-red-950/30 text-red-400";
+            } else {
+                cardVtRelativo.className = "p-3 rounded-lg border border-slate-800 text-center bg-slate-950 text-cyan-400";
+            }
+
+            if (paco2Deseada > 0 && frActual > 0 && vtActual > 0) {
+                const frCorregida = Math.round(frActual * (paco2Actual / paco2Deseada));
+                document.getElementById('resultado-fr').innerText = frCorregida + " rpm";
+
+                const vtSugerido = Math.round(vtActual * (paco2Actual / paco2Deseada));
+                document.getElementById('resultado-vt-sug').innerText = vtSugerido + " mL";
+
+                let vtSugRelativo = 0;
+                if (pesoIdeal > 0) { vtSugRelativo = vtSugerido / pesoIdeal; }
+
+                const boxOptVt = document.getElementById('box-opt-vt');
+                const alertaVili = document.getElementById('alerta-vili');
+
+                if (vtSugRelativo > 8) {
+                    boxOptVt.className = "p-3 rounded-xl border border-amber-500/50 text-center bg-amber-950/20";
+                    alertaVili.classList.remove('hidden');
+                } else {
+                    boxOptVt.className = "p-3 rounded-xl border border-slate-800 text-center bg-slate-950";
+                    alertaVili.classList.add('hidden');
+                }
+            } else {
+                document.getElementById('resultado-fr').innerText = "0 rpm";
+                document.getElementById('resultado-vt-sug').innerText = "0 mL";
+                document.getElementById('alerta-vili').classList.add('hidden');
+            }
+        }
+        window.onload = calcularTodo;
+    </script>
+</body>
+</html>
