@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RVR81X0JWW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RVR81X0JWW');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>AnestePro: Calculador Quirúrgico Avanzado</title>
+    
+    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
+    
+    <link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#020617"> <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Optimización táctil avanzada para mitigar rebotes y selecciones accidentales */
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        body { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+        input, select { -webkit-user-select: text; user-select: text; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans pb-16 subpixel-antialiased">
+
+    <div class="max-w-md mx-auto px-4 py-6">
+        <header class="mb-4 text-center border-b border-slate-800 pb-3">
+            <h1 class="text-2xl font-black tracking-tight text-emerald-400">AnestePro</h1>
+            <p class="text-xs text-slate-400 mt-0.5">Una herramienta de Ivarock</p>
+        </header>
+
+        <nav class="flex gap-1 mb-4 bg-slate-900 p-1 rounded-xl border border-slate-800 text-[10px] font-bold">
+            <button id="btn-pestana-datos" onclick="cambiarPestana('datos')" class="flex-1 py-2.5 rounded-lg text-center bg-emerald-500 text-slate-950 transition-all duration-200">
+                👤 PACIENTE
+            </button>
+            <button id="btn-pestana-fluidos" onclick="cambiarPestana('fluidos')" class="flex-1 py-2.5 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200">
+                🩸 FLUIDOS/SANGRE
+            </button>
+            <button id="btn-pestana-resp" onclick="cambiarPestana('resp')" class="flex-1 py-2.5 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200">
+                🫁 VENTILACIÓN
+            </button>
+            <button id="btn-pestana-extub" onclick="cambiarPestana('extub')" class="flex-1 py-2.5 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200">
+                📋 EXTUBACIÓN
+            </button>
+        </nav>
+
+        <div id="pestana-datos" class="space-y-4">
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
+                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">Ingreso de Parámetros</h2>
+                
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Sexo (M/F)</label>
+                        <select id="sexo" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                            <option value="M">M (Varón)</option>
+                            <option value="F">F (Mujer)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Talla (m)</label>
+                        <input type="number" step="0.01" id="talla" value="1.70" inputmode="decimal" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Peso Real (kg)</label>
+                        <input type="number" id="pesoReal" value="80" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Horas de Ayuno</label>
+                        <input type="number" id="ayuno" value="8" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Severidad Quirúrgica (Pérdidas)</label>
+                    <select id="tipoCirugia" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <option value="4">Leve (4 mL/kg/h)</option>
+                        <option value="6" selected>Moderada (6 mL/kg/h)</option>
+                        <option value="8">Mayor/Severa (8 mL/kg/h)</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl text-xs space-y-2">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Cálculos Biométricos Derivados</h2>
+                <div class="grid grid-cols-2 gap-2 text-slate-300">
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Peso Ideal: <span id="out-pi" class="font-bold text-emerald-400">0</span> kg</div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Peso Corregido: <span id="out-pc" class="font-bold text-emerald-400">0</span> kg</div>
+                </div>
+                <div class="bg-slate-950 p-2 rounded border border-slate-800 text-center">
+                    Volumen Sanguíneo Circulante (VSC): <span id="out-vsc" class="font-bold text-cyan-400">0</span> mL
+                </div>
+            </section>
+        </div>
+
+        <div id="pestana-fluidos" class="hidden space-y-4">
+            
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
+                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">🩸 Monitor de Sangrado & PSP</h2>
+                
+                <div class="grid grid-cols-3 gap-2 mb-3">
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1">Hto Act (%)</label>
+                        <input type="number" id="htoActual" value="40" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1">Hto Mín (%)</label>
+                        <input type="number" id="htoMin" value="30" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1">Sangrado Est (mL)</label>
+                        <input type="number" id="sangradoEstimado" value="0" inputmode="numeric" class="w-full bg-slate-950 border border-amber-500 rounded-lg p-2 text-white text-center outline-none focus:border-amber-500 font-bold" oninput="calcularTodo()">
+                    </div>
+                </div>
+
+                <div id="contenedor-psp" class="p-3 rounded-lg text-center transition-all duration-300 grid grid-cols-2 gap-2">
+                    <div class="text-left flex flex-col justify-center">
+                        <span class="text-[10px] opacity-80 uppercase block">PSP Límite Máximo</span>
+                        <span id="resultado-psp" class="text-lg font-black text-white">0 mL</span>
+                    </div>
+                    <div id="alerta-psp" class="rounded flex items-center justify-center text-xs font-black uppercase tracking-wider px-2 py-1 bg-slate-950 border border-slate-800">
+                        Calculando...
+                    </div>
+                </div>
+            </section>
+
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
+                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">💧 Plan Transoperatorio</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="text-slate-400 border-b border-slate-800">
+                                <th class="py-2">Componente (mL)</th>
+                                <th class="py-2 text-center">Hora 1</th>
+                                <th class="py-2 text-center">Hora 2</th>
+                                <th class="py-2 text-center">Hora 3</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 text-slate-300">
+                            <tr>
+                                <td class="py-2 font-medium">Mantenimiento (4-2-1)</td>
+                                <td id="mant-h1" class="text-center">0</td>
+                                <td id="mant-h2" class="text-center">0</td>
+                                <td id="mant-h3" class="text-center">0</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 font-medium">Pérdidas Insensibles</td>
+                                <td id="ins-h1" class="text-center">0</td>
+                                <td id="ins-h2" class="text-center">0</td>
+                                <td id="ins-h3" class="text-center">0</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 font-medium">Reposición Ayuno</td>
+                                <td id="ayu-h1" class="text-center">0</td>
+                                <td id="ayu-h2" class="text-center">0</td>
+                                <td id="ayu-h3" class="text-center">0</td>
+                            </tr>
+                            <tr class="bg-slate-950 font-bold text-emerald-400">
+                                <td class="py-2 px-1">TOTAL HORA</td>
+                                <td id="tot-h1" class="text-center">0</td>
+                                <td id="tot-h2" class="text-center">0</td>
+                                <td id="tot-h3" class="text-center">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-400 grid grid-cols-2 gap-2">
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Mant. Total: <span id="out-mant-tot" class="text-slate-200 font-bold">0</span> mL</div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Insensibles Tot: <span id="out-ins-tot" class="text-slate-200 font-bold">0</span> mL</div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Déficit Ayuno: <span id="out-def-ayu" class="text-slate-200 font-bold">0</span> mL</div>
+                    <div class="bg-emerald-950/40 border border-emerald-500/30 p-2 rounded font-bold text-emerald-400">TOTAL EST.: <span id="out-bal-tot">0</span> mL</div>
+                </div>
+            </section>
+        </div>
+
+        <div id="pestana-resp" class="hidden space-y-4">
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
+                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">🫁 Monitor Computado Respiratorio</h2>
+                
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">FR Actual (rpm)</label>
+                        <input type="number" id="frActual" value="12" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Vol. Corriente Actual (mL)</label>
+                        <input type="number" id="vtActual" value="500" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500 font-bold" oninput="calcularTodo()">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-center">
+                        <span class="text-[10px] text-slate-400 block uppercase">Volumen Minuto Actual</span>
+                        <span id="out-ve-actual" class="text-lg font-black text-cyan-400">0.0 L/min</span>
+                    </div>
+                    <div id="card-vt-relativo" class="p-3 rounded-lg border border-slate-800 text-center transition-colors duration-300 bg-slate-950">
+                        <span class="text-[10px] text-slate-400 block uppercase">Relación Peso Ideal</span>
+                        <span id="out-vt-relativo" class="text-lg font-black text-cyan-400">0.0 mL/kg</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 border-t border-slate-800 pt-3 mb-4">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">PaCO₂ Actual (mmHg)</label>
+                        <input type="number" id="paco2Actual" value="50" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">PaCO₂ Deseada (mmHg)</label>
+                        <input type="number" id="paco2Deseada" value="40" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-800 pt-3 space-y-3">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide">Optimización Dinámica de Capnografía</h3>
+                    
+                    <div class="grid grid-cols-2 gap-2 text-center text-xs">
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block uppercase font-medium">Ajustar por Frecuencia</span>
+                            <span class="block text-[9px] text-slate-500 mt-0.5">(Dejando VT fijo)</span>
+                            <span id="resultado-fr" class="text-xl font-black text-emerald-400 block mt-1">15 rpm</span>
+                        </div>
+                        
+                        <div id="box-opt-vt" class="p-3 rounded-xl border border-slate-800 text-center bg-slate-950 transition-colors duration-300">
+                            <span class="text-[10px] text-slate-400 block uppercase font-medium">Ajustar por Volumen</span>
+                            <span class="block text-[9px] text-slate-500 mt-0.5">(Dejando FR fija)</span>
+                            <span id="resultado-vt-sug" class="text-xl font-black text-emerald-400 block mt-1">625 mL</span>
+                        </div>
+                    </div>
+
+                    <div id="alerta-vili" class="hidden text-center text-[11px] font-bold p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-400 animate-pulse">
+                        ⚠️ Alerta: El VT sugerido excede los 8 mL/kg de protección. Se aconseja corregir por FR en su lugar.
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="pestana-extub" class="hidden space-y-4">
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
+                <div class="flex justify-between items-center mb-1 text-xs">
+                    <span class="text-slate-400 uppercase font-bold tracking-wider">Progreso de Evaluación</span>
+                    <span id="txt-progreso" class="font-black text-emerald-400">0%</span>
+                </div>
+                <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800 p-0.5">
+                    <div id="barra-progreso" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <div id="status-extubacion" class="mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-amber-950/30 border border-amber-500/30 text-amber-400 transition-all duration-300">
+                    ⚠️ EVALUACIÓN EN PROGRESO
+                </div>
+            </section>
+
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl space-y-3 text-xs">
+                
+                <div class="border-b border-slate-800 pb-2">
+                    <h3 class="text-emerald-400 font-bold uppercase mb-2 tracking-wide">🧠 Neurológico</h3>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span>Despierto, responde órdenes simples (apretar manos, abrir ojos)</span>
+                    </label>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800 mt-2">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span>Reflejos protectores presentes (tos y deglución eficaces)</span>
+                    </label>
+                </div>
+
+                <div class="border-b border-slate-800 pb-2">
+                    <h3 class="text-emerald-400 font-bold uppercase mb-2 tracking-wide">🫁 Mecánica Respiratoria</h3>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span>Frecuencia Respiratoria espontánea y regular (12 - 30 rpm)</span>
+                    </label>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800 mt-2">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span>Patrón confortable (sin tirajes ni disociación toracoabdominal)</span>
+                    </label>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800 mt-2">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span class="flex-1">Volumen Corriente Espontáneo ≥ 5 mL/kg (<span id="req-vt-extub" class="font-bold text-cyan-400">0</span> mL)</span>
+                    </label>
+                </div>
+
+                <div class="border-b border-slate-800 pb-2">
+                    <h3 class="text-emerald-400 font-bold uppercase mb-2 tracking-wide">🌡️ Homeostasis y Hemodinamia</h3>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span>Oxigenación adecuada (SpO₂ > 92% con FiO₂ ≤ 40%)</span>
+                    </label>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800 mt-2">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span>Estabilidad hemodinámica sin arritmias ni sangrado activo masivo</span>
+                    </label>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800 mt-2">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span class="flex-1">Normotermia central (> 36°C) <button onclick="alertaDocente('temp')" class="ml-1 text-cyan-400 font-bold bg-slate-900 rounded px-1 border border-slate-800">(i)</button></span>
+                    </label>
+                </div>
+
+                <div>
+                    <h3 class="text-emerald-400 font-bold uppercase mb-2 tracking-wide">⚡ Reversión Neuromuscular</h3>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span class="flex-1">Monitorización Cuantitativa: TOF > 0.9 (Óptimo) <button onclick="alertaDocente('tof')" class="ml-1 text-cyan-400 font-bold bg-slate-900 rounded px-1 border border-slate-800">(i)</button></span>
+                    </label>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800 mt-2">
+                        <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
+                        <span>Plan de Respaldo Clínico: Sostén de la cabeza ≥ 5s o fuerza manual sostenida</span>
+                    </label>
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONTROL DE CAMBIO DE VENTANAS (TABS) ---
+        function cambiarPestana(id) {
+            document.getElementById('pestana-datos').classList.add('hidden');
+            document.getElementById('pestana-fluidos').classList.add('hidden');
+            document.getElementById('pestana-resp').classList.add('hidden');
+            document.getElementById('pestana-extub').classList.add('hidden');
+
+            document.getElementById('btn-pestana-datos').className = "flex-1 py-2.5 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200";
+            document.getElementById('btn-pestana-fluidos').className = "flex-1 py-2.5 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200";
+            document.getElementById('btn-pestana-resp').className = "flex-1 py-2.5 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200";
+            document.getElementById('btn-pestana-extub').className = "flex-1 py-2.5 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200";
+
+            if (id === 'datos') {
+                document.getElementById('pestana-datos').classList.remove('hidden');
+                document.getElementById('btn-pestana-datos').className = "flex-1 py-2.5 rounded-lg text-center bg-emerald-500 text-slate-950 font-bold";
+            } else if (id === 'fluidos') {
+                document.getElementById('pestana-fluidos').classList.remove('hidden');
+                document.getElementById('btn-pestana-fluidos').className = "flex-1 py-2.5 rounded-lg text-center bg-emerald-500 text-slate-950 font-bold";
+            } else if (id === 'resp') {
+                document.getElementById('pestana-resp').classList.remove('hidden');
+                document.getElementById('btn-pestana-resp').className = "flex-1 py-2.5 rounded-lg text-center bg-emerald-500 text-slate-950 font-bold";
+            } else if (id === 'extub') {
+                document.getElementById('pestana-extub').classList.remove('hidden');
+                document.getElementById('btn-pestana-extub').className = "flex-1 py-2.5 rounded-lg text-center bg-emerald-500 text-slate-950 font-bold";
+            }
+        }
+
+        // --- MICRO-NOTAS EXPLICATIVAS (DOCENCIA) ---
+        function alertaDocente(tipo) {
+            if (tipo === 'tof') {
+                alert("Docencia AnestePro:\n\nUn cociente TOF < 0.9 se asocia firmemente con debilidad de los músculos faríngeos, colapso de la vía aérea superior e incompetencia del esfínter esofágico, multiplicando el riesgo de microaspiraciones y complicaciones respiratorias en la URPA.");
+            } else if (tipo === 'temp') {
+                alert("Docencia AnestePro:\n\nLa hipotermia perioperatoria (< 36°C) disminuye el metabolismo farmacológico, prolonga de forma impredecible la acción de los bloqueantes neuromusculares no despolarizantes y deprime la respuesta ventilatoria central al CO2.");
+            }
+        }
+
+        // --- EVALUACIÓN DE LA BARRA DE PROGRESO DE EXTUBACIÓN ---
+        function evaluarProgreso() {
+            const checkboxes = document.querySelectorAll('.chk-extub');
+            let marcados = 0;
+            checkboxes.forEach(chk => { if (chk.checked) marcados++; });
+            
+            const porcentaje = Math.round((marcados / checkboxes.length) * 100);
+            document.getElementById('txt-progreso').innerText = porcentaje + "%";
+            document.getElementById('barra-progreso').style.width = porcentaje + "%";
+
+            const status = document.getElementById('status-extubacion');
+            if (porcentaje === 100) {
+                status.className = "mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-emerald-500 text-slate-950 shadow-lg animate-pulse";
+                status.innerText = "✅ PACIENTE APTO PARA EXTUBACIÓN SEGURA";
+            } else {
+                status.className = "
