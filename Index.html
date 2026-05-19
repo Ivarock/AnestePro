@@ -57,7 +57,7 @@
                 🩸 FLUIDOS
             </button>
             <button id="btn-pestana-resp" onclick="cambiarPestana('resp')" class="py-2 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200">
-                🫁 VENTIL.
+                𫆹 VENTIL.
             </button>
             <button id="btn-pestana-extub" onclick="cambiarPestana('extub')" class="py-2 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200">
                 📋 EXTUB.
@@ -252,7 +252,7 @@
                             <span id="resultado-vt-sug" class="text-xl font-black text-emerald-400 block mt-1 print-text">625 mL</span>
                         </div>
                     </div>
-                    <div id="alerta-vili" class="hidden text-center text-[11px] font-bold p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-400">
+                    <div id="alerta-vili" class="hidden text-center text-[11px] font-bold p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-400 animate-pulse">
                         ⚠️ Alerta: El VT sugerido excede los 8 mL/kg de protección.
                     </div>
                 </div>
@@ -426,7 +426,6 @@
             document.getElementById('modal-info').classList.remove('hidden');
         }
 
-        // Corrección de sintaxis y cierre limpio de llaves y cadenas
         function cerrarModalInfo() {
             document.getElementById('modal-info').classList.add('hidden');
         }
@@ -693,7 +692,7 @@
             }
 
             document.getElementById('pestana-datos').classList.remove('hidden');
-            document.getElementById('fluidos').classList.remove('hidden');
+            document.getElementById('pestana-fluidos').classList.remove('hidden');
             document.getElementById('pestana-resp').classList.remove('hidden');
             document.getElementById('pestana-extub').classList.remove('hidden');
             document.getElementById('pestana-reporte').classList.remove('hidden');
