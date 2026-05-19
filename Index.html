@@ -18,10 +18,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#020617">
 
-    <link rel="icon" type="image/png" sizes="512x512" href="logo.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
-    <link rel="shortcut icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
+    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -252,7 +252,7 @@
                             <span id="resultado-vt-sug" class="text-xl font-black text-emerald-400 block mt-1 print-text">625 mL</span>
                         </div>
                     </div>
-                    <div id="alerta-vili" class="hidden text-center text-[11px] font-bold p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-400 animate-pulse">
+                    <div id="alerta-vili" class="hidden text-center text-[11px] font-bold p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-400">
                         ⚠️ Alerta: El VT sugerido excede los 8 mL/kg de protección.
                     </div>
                 </div>
@@ -382,7 +382,7 @@
             </div>
             <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-2">Aviso de Privacidad y Docencia</h3>
             <p class="text-xs text-slate-400 leading-relaxed mb-4 text-justify">
-                La recolección de nombres y cédulas de identidad dentro de este dispositivo se realiza <strong class="text-amber-400 font-semibold">únicamente con fines educativos, estadísticos y de investigación clínica</strong>. Queda prohibido el uso comercial o la divulgación no autorizada de estos datos en cumplimiento con el secreto médico profesional.
+                La recolección de nombres y cédulas de identidad dentro de este dispositivo se realiza <strong>únicamente con fines educativos, estadísticos y de investigación clínica</strong>. Queda prohibido el uso comercial o la divulgación no autorizada de estos datos en cumplimiento con el secreto médico profesional.
             </p>
             <button onclick="cerrarModalInfo()" class="w-full bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-200 font-bold py-2 rounded-xl text-xs tracking-wide transition-all">
                 ENTENDIDO Y ACEPTADO
@@ -422,11 +422,11 @@
             }
         }
 
-        // FUNCIONES DE CONTROL DEL MODAL INFORMATIVO Y VIÑETA
         function abrirModalInfo() {
             document.getElementById('modal-info').classList.remove('hidden');
         }
 
+        // Corrección de sintaxis y cierre limpio de llaves y cadenas
         function cerrarModalInfo() {
             document.getElementById('modal-info').classList.add('hidden');
         }
@@ -443,7 +443,7 @@
                 txtCedula.disabled = false;
                 txtNombre.placeholder = "Ej. Juan Pérez";
                 txtCedula.placeholder = "Ej. 172458XXX";
-                abrirModalInfo(); // Fuerza la ventana de advertencia académica al activarlo
+                abrirModalInfo();
             } else {
                 contenedor.classList.add('opacity-40');
                 txtNombre.disabled = true;
@@ -598,10 +598,13 @@
                     boxOptVt.className = "p-3 rounded-xl border border-slate-800 text-center bg-slate-950";
                     alertaVili.classList.add('hidden');
                 }
+            } else {
+                document.getElementById('resultado-fr').innerText = "0 rpm";
+                document.getElementById('resultado-vt-sug').innerText = "0 mL";
+                document.getElementById('alerta-vili').classList.add('hidden');
             }
         }
 
-        // MOTOR DE CONSTRUCCIÓN DE REPORTE EN TEXTO PLANO
         function construirCadenaReporte() {
             const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit' });
             
@@ -609,7 +612,6 @@
             const idCaso = document.getElementById('idCaso').value || 'ANÓNIMO';
             const obs = document.getElementById('observaciones').value || 'Sin novedades reportadas.';
             
-            // Datos de identidad condicionales
             const recolectaIdentidad = document.getElementById('chkHabilitarIdentidad').checked;
             const nomPac = recolectaIdentidad ? (document.getElementById('nombrePaciente').value || 'N/A') : 'PROTEGIDO (ANÓNIMO)';
             const cedPac = recolectaIdentidad ? (document.getElementById('cedulaPaciente').value || 'N/A') : 'PROTEGIDO (ANÓNIMO)';
@@ -679,7 +681,6 @@
             const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit' });
             document.getElementById('print-fecha').innerText = `Fecha/Hora: ${fechaActual} | Sala: ${document.getElementById('numQuirofano').value || 'N/A'}`;
             
-            // Sincronizar datos nominales al bloque de impresión PDF
             const recolectaIdentidad = document.getElementById('chkHabilitarIdentidad').checked;
             if(recolectaIdentidad) {
                 document.getElementById('print-nombre-bloque').style.display = "block";
@@ -691,16 +692,13 @@
                 document.getElementById('print-cedula-bloque').style.display = "none";
             }
 
-            // Forzar visualización global de bloques para la captura de impresión
             document.getElementById('pestana-datos').classList.remove('hidden');
-            document.getElementById('pestana-fluidos').classList.remove('hidden');
+            document.getElementById('fluidos').classList.remove('hidden');
             document.getElementById('pestana-resp').classList.remove('hidden');
             document.getElementById('pestana-extub').classList.remove('hidden');
             document.getElementById('pestana-reporte').classList.remove('hidden');
 
             window.print();
-
-            // Restaurar estado visual
             cambiarPestana('reporte');
         }
 
