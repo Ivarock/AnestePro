@@ -30,12 +30,11 @@
         body { -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
         input, select, textarea { -webkit-user-select: text; user-select: text; }
         
-        /* 🌟 NUEVO MOTOR INFALIBLE DE PDF 🌟 */
+        /* 🌟 MOTOR DE PDF */
         @media print {
             body { background: white !important; margin: 0 !important; padding: 0 !important; }
-            #app-principal { display: none !important; } /* Oculta toda la app gráfica */
+            #app-principal { display: none !important; }
             #modal-info { display: none !important; }
-            /* Muestra únicamente la hoja de reporte médico */
             #hoja-impresion { 
                 display: block !important; 
                 background: white !important; 
@@ -270,31 +269,31 @@
                 <div>
                     <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 mb-1">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
-                        <span>Responde órdenes simples y reflejos presentes</span>
+                        <span class="leading-relaxed">Responde a órdenes simples (ej. abrir los ojos) y reflejos protectores de vía aérea presentes.</span>
                     </label>
                 </div>
                 <div>
                     <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 mb-1">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
-                        <span>Frecuencia regular y patrón ventilatorio confortable</span>
+                        <span class="leading-relaxed">Frecuencia regular, sin uso de musculatura accesoria (patrón ventilatorio confortable).</span>
                     </label>
                 </div>
                 <div>
                     <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 mb-1">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
-                        <span>Volumen Corriente Espontáneo ≥ 5 mL/kg (<span id="req-vt-extub">0</span> mL)</span>
+                        <span class="leading-relaxed">Volumen Corriente Espontáneo ≥ 5 mL/kg (Meta: <span id="req-vt-extub">0</span> mL).</span>
                     </label>
                 </div>
                 <div>
                     <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 mb-1">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
-                        <span>Oxigenación y estabilidad hemodinámica con normotermia</span>
+                        <span class="leading-relaxed">Estabilidad hemodinámica, oxigenación adecuada y normotermia (> 36°C).</span>
                     </label>
                 </div>
                 <div>
                     <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
-                        <span>TOF > 0.9 o criterios clínicos de fuerza sostenida</span>
+                        <span class="leading-relaxed">TOF > 0.9 o criterios clínicos evidentes (ej. elevación sostenida de la cabeza > 5 segundos).</span>
                     </label>
                 </div>
             </section>
@@ -360,9 +359,8 @@
     </div>
 
     <script>
-        // Rastreador de errores de sistema infalible
         window.onerror = function(msg, url, line) {
-            alert("🏥 ALERTA AnestePro: Error en línea " + line + ".\nMotivo: " + msg + "\nSolución: Por favor revisa que usaste el botón 'Copiar' para llevarte todo el código completo desde GitHub.");
+            alert("🏥 ALERTA AnestePro: Error en línea " + line + ".\nMotivo: " + msg);
         };
 
         function cambiarPestana(id) {
