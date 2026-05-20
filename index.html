@@ -31,13 +31,34 @@
         body { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
         input, select, textarea { -webkit-user-select: text; user-select: text; }
         
-        /* Estilos específicos de impresión para el PDF limpio */
+        /* 🌟 CORRECCIÓN CLÍNICA DEL MODO IMPRESIÓN (PDF BLANCO Y NEGRO PERFECTO) 🌟 */
         @media print {
-            body { background: white !important; color: black !important; padding: 0 !important; }
-            nav, header, .no-print, button, label, select, input, textarea { display: none !important; }
+            body, html { background: white !important; color: black !important; padding: 0 !important; }
+            /* Ocultamos SOLO los botones, la navegación y advertencias irrelevantes */
+            nav, header, .no-print, button { display: none !important; }
             .print-only { display: block !important; }
-            .print-card { border: 1px solid #cbd5e1 !important; background: white !important; color: black !important; box-shadow: none !important; margin-bottom: 12px !important; }
-            .print-text { color: black !important; font-weight: bold !important; }
+            
+            /* Cajas de las ventanas */
+            .print-card { 
+                border: 1px solid #cbd5e1 !important; 
+                background: white !important; 
+                color: black !important; 
+                box-shadow: none !important; 
+                margin-bottom: 15px !important; 
+                page-break-inside: avoid !important;
+            }
+            
+            /* Forzar todo el texto a negro para legibilidad */
+            label, span, h2, h3, p, td, th, div { color: black !important; }
+            .print-text { color: black !important; font-weight: bold !important; font-size: 1.1em !important; }
+            
+            /* Recuperamos los inputs y selects, quitándoles el fondo negro oscuro */
+            input, select, textarea { 
+                background: white !important; 
+                color: black !important; 
+                border: 1px solid #94a3b8 !important; 
+                box-shadow: none !important;
+            }
         }
     </style>
 </head>
@@ -57,7 +78,7 @@
                 🩸 FLUIDOS
             </button>
             <button id="btn-pestana-resp" onclick="cambiarPestana('resp')" class="py-2 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200">
-                𫆹 VENTIL.
+                🫁 VENTIL.
             </button>
             <button id="btn-pestana-extub" onclick="cambiarPestana('extub')" class="py-2 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200">
                 📋 EXTUB.
@@ -86,18 +107,18 @@
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Talla (m)</label>
-                        <input type="number" step="0.01" id="talla" value="1.70" inputmode="decimal" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <input type="number" step="0.01" id="talla" value="1.70" inputmode="decimal" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Peso Real (kg)</label>
-                        <input type="number" id="pesoReal" value="80" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <input type="number" id="pesoReal" value="80" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Horas de Ayuno</label>
-                        <input type="number" id="ayuno" value="8" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <input type="number" id="ayuno" value="8" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
                     </div>
                 </div>
 
@@ -130,15 +151,15 @@
                 <div class="grid grid-cols-3 gap-2 mb-3">
                     <div>
                         <label class="block text-[10px] text-slate-400 mb-1">Hto Act (%)</label>
-                        <input type="number" id="htoActual" value="40" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <input type="number" id="htoActual" value="40" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
                     </div>
                     <div>
                         <label class="block text-[10px] text-slate-400 mb-1">Hto Mín (%)</label>
-                        <input type="number" id="htoMin" value="30" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <input type="number" id="htoMin" value="30" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
                     </div>
                     <div>
                         <label class="block text-[10px] text-slate-400 mb-1">Sangrado Est (mL)</label>
-                        <input type="number" id="sangradoEstimado" value="0" inputmode="numeric" class="w-full bg-slate-950 border border-amber-500 rounded-lg p-2 text-white text-center outline-none focus:border-amber-500" onchange="calcularTodo()">
+                        <input type="number" id="sangradoEstimado" value="0" inputmode="numeric" class="w-full bg-slate-950 border border-amber-500 rounded-lg p-2 text-white text-center outline-none focus:border-amber-500 font-bold" oninput="calcularTodo()">
                     </div>
                 </div>
 
@@ -210,11 +231,11 @@
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">FR Actual (rpm)</label>
-                        <input type="number" id="frActual" value="12" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <input type="number" id="frActual" value="12" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Vol. Corriente Actual (mL)</label>
-                        <input type="number" id="vtActual" value="500" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <input type="number" id="vtActual" value="500" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500 font-bold" oninput="calcularTodo()">
                     </div>
                 </div>
 
@@ -232,11 +253,11 @@
                 <div class="grid grid-cols-2 gap-3 border-t border-slate-800 pt-3 mb-4">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">PaCO₂ Actual (mmHg)</label>
-                        <input type="number" id="paco2Actual" value="50" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <input type="number" id="paco2Actual" value="50" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">PaCO₂ Deseada (mmHg)</label>
-                        <input type="number" id="paco2Deseada" value="40" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <input type="number" id="paco2Deseada" value="40" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
                     </div>
                 </div>
 
@@ -252,7 +273,7 @@
                             <span id="resultado-vt-sug" class="text-xl font-black text-emerald-400 block mt-1 print-text">625 mL</span>
                         </div>
                     </div>
-                    <div id="alerta-vili" class="hidden text-center text-[11px] font-bold p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-400 animate-pulse">
+                    <div id="alerta-vili" class="hidden text-center text-[11px] font-bold p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-400 animate-pulse no-print">
                         ⚠️ Alerta: El VT sugerido excede los 8 mL/kg de protección.
                     </div>
                 </div>
@@ -330,7 +351,7 @@
                             <input type="checkbox" id="chkHabilitarIdentidad" onchange="conmutarCamposIdentidad()" class="accent-amber-500 w-4 h-4">
                             <span class="text-xs font-bold text-slate-300">Recolectar Datos Nominales</span>
                         </label>
-                        <button onclick="abrirModalInfo()" class="w-5 h-5 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-400 text-xs font-black flex items-center justify-center transition-all">
+                        <button onclick="abrirModalInfo()" class="w-5 h-5 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-400 text-xs font-black flex items-center justify-center transition-colors">
                             i
                         </button>
                     </div>
@@ -338,11 +359,11 @@
                     <div class="grid grid-cols-2 gap-3 transition-opacity duration-300 opacity-40" id="contenedor-campos-identidad">
                         <div>
                             <label class="block text-[11px] text-slate-400 mb-1">Nombre Completo</label>
-                            <input type="text" id="nombrePaciente" disabled placeholder="Deshabilitado" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs outline-none">
+                            <input type="text" id="nombrePaciente" disabled placeholder="Deshabilitado" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs outline-none focus:border-amber-500">
                         </div>
                         <div>
                             <label class="block text-[11px] text-slate-400 mb-1">Cédula de Identidad</label>
-                            <input type="text" id="cedulaPaciente" disabled placeholder="Deshabilitado" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs outline-none">
+                            <input type="text" id="cedulaPaciente" disabled placeholder="Deshabilitado" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs outline-none focus:border-amber-500">
                         </div>
                     </div>
                 </div>
@@ -354,7 +375,7 @@
 
                 <div>
                     <label class="block text-xs text-slate-400 mb-1">Complicaciones / Observaciones Especiales</label>
-                    <textarea id="observaciones" rows="2" placeholder="Ej. Vía aérea difícil grado II, laringoespasmo transitorio al ingreso..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs outline-none focus:border-amber-500 resize-none"></textarea>
+                    <textarea id="observaciones" rows="2" placeholder="Ej. Vía aérea difícil grado II, laringoespasmo transitorio al ingreso..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs outline-none focus:border-amber-500"></textarea>
                 </div>
             </section>
 
@@ -369,7 +390,7 @@
                     📄 EXPORTAR / IMPRIMIR PDF
                 </button>
                 
-                <p class="text-[10px] text-slate-500 leading-tight">Nota: Los datos se procesan localmente en tu navegador. Al presionar exportar, el reporte se guarda de forma segura.</p>
+                <p class="text-[10px] text-slate-500 leading-tight">Nota: Los datos se procesan localmente en el procesador de tu terminal. Al presionar exportar o cambiar de paciente, el caché temporal se limpia de forma segura.</p>
             </section>
         </div>
 
@@ -382,7 +403,7 @@
             </div>
             <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-2">Aviso de Privacidad y Docencia</h3>
             <p class="text-xs text-slate-400 leading-relaxed mb-4 text-justify">
-                La recolección de nombres y cédulas de identidad dentro de este dispositivo se realiza <strong>únicamente con fines educativos, estadísticos y de investigación clínica</strong>. Los datos son procesados localmente.
+                La recolección de nombres y cédulas de identidad dentro de este dispositivo se realiza <strong>únicamente con fines educativos, estadísticos y de investigación clínica</strong>. Queda prohibido el uso comercial o la divulgación no autorizada de estos datos en cumplimiento con el secreto médico profesional.
             </p>
             <button onclick="cerrarModalInfo()" class="w-full bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-200 font-bold py-2 rounded-xl text-xs tracking-wide transition-all">
                 ENTENDIDO Y ACEPTADO
@@ -418,290 +439,4 @@
                 document.getElementById('btn-pestana-extub').className = "py-2 rounded-lg text-center bg-emerald-500 text-slate-950 font-bold";
             } else if (id === 'reporte') {
                 document.getElementById('pestana-reporte').classList.remove('hidden');
-                document.getElementById('btn-pestana-reporte').className = "py-2 rounded-lg text-center bg-amber-500 text-slate-950 font-bold";
-            }
-        }
-
-        function abrirModalInfo() {
-            document.getElementById('modal-info').classList.remove('hidden');
-        }
-
-        function cerrarModalInfo() {
-            document.getElementById('modal-info').classList.add('hidden');
-        }
-
-        function conmutarCamposIdentidad() {
-            const check = document.getElementById('chkHabilitarIdentidad');
-            const contenedor = document.getElementById('contenedor-campos-identidad');
-            const txtNombre = document.getElementById('nombrePaciente');
-            const txtCedula = document.getElementById('cedulaPaciente');
-
-            if(check.checked) {
-                contenedor.classList.remove('opacity-40');
-                txtNombre.disabled = false;
-                txtCedula.disabled = false;
-                txtNombre.placeholder = "Ej. Juan Pérez";
-                txtCedula.placeholder = "Ej. 172458XXX";
-                abrirModalInfo();
-            } else {
-                contenedor.classList.add('opacity-40');
-                txtNombre.disabled = true;
-                txtCedula.disabled = true;
-                txtNombre.value = "";
-                txtCedula.value = "";
-                txtNombre.placeholder = "Deshabilitado";
-                txtCedula.placeholder = "Deshabilitado";
-            }
-        }
-
-        function evaluarProgreso() {
-            const checkboxes = document.querySelectorAll('.chk-extub');
-            let marcados = 0;
-            checkboxes.forEach(chk => { if (chk.checked) marcados++; });
-            
-            const porcentaje = Math.round((marcados / checkboxes.length) * 100);
-            document.getElementById('txt-progreso').innerText = porcentaje + "%";
-            document.getElementById('barra-progreso').style.width = porcentaje + "%";
-
-            const status = document.getElementById('status-extubacion');
-            if (porcentaje === 100) {
-                status.className = "mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-emerald-500 text-slate-950 shadow-lg print-text";
-                status.innerText = "✅ APTO PARA EXTUBACIÓN SEGURA";
-            } else {
-                status.className = "mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-amber-950/30 border border-amber-500/30 text-amber-400";
-                status.innerText = "⚠️ EVALUACIÓN EN PROGRESO";
-            }
-        }
-
-        function calcularTodo() {
-            const sexo = document.getElementById('sexo').value;
-            const talla = parseFloat(document.getElementById('talla').value) || 0;
-            const pesoReal = parseFloat(document.getElementById('pesoReal').value) || 0;
-            const ayuno = parseFloat(document.getElementById('ayuno').value) || 0;
-            const tasaInsensibles = parseFloat(document.getElementById('tipoCirugia').value) || 0;
-            
-            const htoActual = parseFloat(document.getElementById('htoActual').value) || 0;
-            const htoMin = parseFloat(document.getElementById('htoMin').value) || 0;
-            const sangradoEstimado = parseFloat(document.getElementById('sangradoEstimado').value) || 0;
-
-            const frActual = parseFloat(document.getElementById('frActual').value) || 0;
-            const vtActual = parseFloat(document.getElementById('vtActual').value) || 0;
-            const paco2Actual = parseFloat(document.getElementById('paco2Actual').value) || 0;
-            const paco2Deseada = parseFloat(document.getElementById('paco2Deseada').value) || 0;
-
-            const imcObjetivo = (sexo === 'M') ? 22 : 21.5;
-            const pesoIdeal = (talla * talla) * imcObjetivo;
-            const pesoCorregido = pesoIdeal + 0.25 * (pesoReal - pesoIdeal);
-            const imcReal = pesoReal / (talla * talla);
-
-            document.getElementById('out-pi').innerText = pesoIdeal.toFixed(2);
-            document.getElementById('out-pc').innerText = pesoCorregido.toFixed(2);
-
-            const vtMinExtubacion = Math.round(pesoIdeal * 5);
-            document.getElementById('req-vt-extub').innerText = vtMinExtubacion;
-
-            let pesoCalculo = (imcReal >= 30) ? pesoCorregido : pesoReal;
-
-            const factorVSC = (sexo === 'M') ? 70 : 60;
-            const vsc = pesoReal * factorVSC;
-            document.getElementById('out-vsc').innerText = Math.round(vsc);
-
-            let psp = 0;
-            if (htoActual > 0) { psp = ((htoActual - htoMin) / htoActual) * vsc; }
-            const pspRedondeada = Math.max(0, Math.round(psp));
-            document.getElementById('resultado-psp').innerText = pspRedondeada + " mL";
-
-            const contenedorPsp = document.getElementById('contenedor-psp');
-            const alertaPsp = document.getElementById('alerta-psp');
-
-            if (sangradoEstimado === 0) {
-                contenedorPsp.className = "p-3 rounded-lg text-center grid grid-cols-2 gap-2 bg-slate-950/40 border border-slate-800 text-slate-300";
-                alertaPsp.className = "rounded flex items-center justify-center text-xs font-bold px-2 py-1 bg-slate-900 text-slate-400";
-                alertaPsp.innerText = "Sin Sangrado";
-            } else if (sangradoEstimado <= pspRedondeada) {
-                contenedorPsp.className = "p-3 rounded-lg text-center grid grid-cols-2 gap-2 bg-emerald-950/40 border border-emerald-500/40 text-emerald-200";
-                alertaPsp.className = "rounded flex items-center justify-center text-xs font-black px-2 py-1 bg-emerald-500 text-slate-950";
-                alertaPsp.innerText = "Dentro de PSP";
-            } else {
-                contenedorPsp.className = "p-3 rounded-lg text-center grid grid-cols-2 gap-2 bg-red-950/60 border border-red-500/60 text-red-200";
-                alertaPsp.className = "rounded flex items-center justify-center text-xs font-black px-2 py-1 bg-red-500 text-white";
-                alertaPsp.innerText = "⚠️ EXCEDE PSP";
-            }
-
-            let mantenimiento = 0;
-            if (pesoCalculo <= 10) { mantenimiento = pesoCalculo * 4; } 
-            else if (pesoCalculo <= 20) { mantenimiento = 40 + (pesoCalculo - 10) * 2; } 
-            else { mantenimiento = 60 + (pesoCalculo - 20) * 1; }
-            mantenimiento = Math.round(mantenimiento);
-
-            const insensiblesPorHora = Math.round(tasaInsensibles * pesoCalculo);
-            const deficitAyunoTotal = mantenimiento * ayuno;
-            const ayunoH1 = Math.round(deficitAyunoTotal * 0.50);
-            const ayunoH2 = Math.round(deficitAyunoTotal * 0.25);
-            const ayunoH3 = Math.round(deficitAyunoTotal * 0.25);
-
-            document.getElementById('mant-h1').innerText = mantenimiento;
-            document.getElementById('mant-h2').innerText = mantenimiento;
-            document.getElementById('mant-h3').innerText = mantenimiento;
-
-            document.getElementById('ins-h1').innerText = insensiblesPorHora;
-            document.getElementById('ins-h2').innerText = insensiblesPorHora;
-            document.getElementById('ins-h3').innerText = insensiblesPorHora;
-
-            document.getElementById('ayu-h1').innerText = ayunoH1;
-            document.getElementById('ayu-h2').innerText = ayunoH2;
-            document.getElementById('ayu-h3').innerText = ayunoH3;
-
-            document.getElementById('tot-h1').innerText = mantenimiento + insensiblesPorHora + ayunoH1;
-            document.getElementById('tot-h2').innerText = mantenimiento + insensiblesPorHora + ayunoH2;
-            document.getElementById('tot-h3').innerText = mantenimiento + insensiblesPorHora + ayunoH3;
-
-            const mantTotalConst = mantenimiento * 3;
-            const insTotalConst = insensiblesPorHora * 3;
-            document.getElementById('out-mant-tot').innerText = mantTotalConst;
-            document.getElementById('out-ins-tot').innerText = insTotalConst;
-            document.getElementById('out-def-ayu').innerText = deficitAyunoTotal;
-            document.getElementById('out-bal-tot').innerText = mantTotalConst + insTotalConst + deficitAyunoTotal;
-
-            const veActual = (frActual * vtActual) / 1000;
-            document.getElementById('out-ve-actual').innerText = veActual.toFixed(2) + " L/min";
-
-            let vtRelativo = 0;
-            if (pesoIdeal > 0) { vtRelativo = vtActual / pesoIdeal; }
-            document.getElementById('out-vt-relativo').innerText = vtRelativo.toFixed(1) + " mL/kg";
-
-            const cardVtRelativo = document.getElementById('card-vt-relativo');
-            if (vtRelativo > 8) {
-                cardVtRelativo.className = "p-3 rounded-lg border border-red-500/50 text-center bg-red-950/30 text-red-400";
-            } else {
-                cardVtRelativo.className = "p-3 rounded-lg border border-slate-800 text-center bg-slate-950 text-cyan-400";
-            }
-
-            if (paco2Deseada > 0 && frActual > 0 && vtActual > 0) {
-                const frCorregida = Math.round(frActual * (paco2Actual / paco2Deseada));
-                document.getElementById('resultado-fr').innerText = frCorregida + " rpm";
-
-                const vtSugerido = Math.round(vtActual * (paco2Actual / paco2Deseada));
-                document.getElementById('resultado-vt-sug').innerText = vtSugerido + " mL";
-
-                let vtSugRelativo = 0;
-                if (pesoIdeal > 0) { vtSugRelativo = vtSugerido / pesoIdeal; }
-
-                const boxOptVt = document.getElementById('box-opt-vt');
-                const alertaVili = document.getElementById('alerta-vili');
-
-                if (vtSugRelativo > 8) {
-                    boxOptVt.className = "p-3 rounded-xl border border-amber-500/50 text-center bg-amber-950/20";
-                    alertaVili.classList.remove('hidden');
-                } else {
-                    boxOptVt.className = "p-3 rounded-xl border border-slate-800 text-center bg-slate-950";
-                    alertaVili.classList.add('hidden');
-                }
-            } else {
-                document.getElementById('resultado-fr').innerText = "0 rpm";
-                document.getElementById('resultado-vt-sug').innerText = "0 mL";
-                document.getElementById('alerta-vili').classList.add('hidden');
-            }
-        }
-
-        function construirCadenaReporte() {
-            const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit' });
-            
-            const qx = document.getElementById('numQuirofano').value || 'N/A';
-            const idCaso = document.getElementById('idCaso').value || 'ANÓNIMO';
-            const obs = document.getElementById('observaciones').value || 'Sin novedades reportadas.';
-            
-            const recolectaIdentidad = document.getElementById('chkHabilitarIdentidad').checked;
-            const nomPac = recolectaIdentidad ? (document.getElementById('nombrePaciente').value || 'N/A') : 'PROTEGIDO (ANÓNIMO)';
-            const cedPac = recolectaIdentidad ? (document.getElementById('cedulaPaciente').value || 'N/A') : 'PROTEGIDO (ANÓNIMO)';
-
-            const sexo = document.getElementById('sexo').value;
-            const talla = document.getElementById('talla').value;
-            const pesoReal = document.getElementById('pesoReal').value;
-            const pi = document.getElementById('out-pi').innerText;
-            const pc = document.getElementById('out-pc').innerText;
-            const vsc = document.getElementById('out-vsc').innerText;
-            
-            const htoA = document.getElementById('htoActual').value;
-            const psp = document.getElementById('resultado-psp').innerText;
-            const sangrado = document.getElementById('sangradoEstimado').value;
-            const fluidosTot = document.getElementById('out-bal-tot').innerText;
-            
-            const frA = document.getElementById('frActual').value;
-            const vtA = document.getElementById('vtActual').value;
-            const paco2A = document.getElementById('paco2Actual').value;
-            const frS = document.getElementById('resultado-fr').innerText;
-            const vtS = document.getElementById('resultado-vt-sug').innerText;
-            const statusExtub = document.getElementById('status-extubacion').innerText;
-
-            let bloqueIdentidadTexto = "";
-            if (recolectaIdentidad) {
-                bloqueIdentidadTexto = `* PACIENTE: ${nomPac}\n* CÉDULA: ${cedPac}\n[FINES EXCLUSIVAMENTE DOCENTES/INVESTIGACIÓN]\n\n`;
-            }
-
-            return `==========================================\n` +
-                   `        REPORTE CLÍNICO - ANESTEPRO       \n` +
-                   `==========================================\n` +
-                   `Fecha/Hora: ${fechaActual}\n` +
-                   `Sala/Quirófano: ${qx}\n` +
-                   `ID del Caso: ${idCaso}\n\n` +
-                   bloqueIdentidadTexto +
-                   `1. BIOMETRÍA DEL PACIENTE:\n` +
-                   `- Sexo: ${sexo} | Talla: ${talla} m | Peso Real: ${pesoReal} kg\n` +
-                   `- Peso Ideal Calc: ${pi} kg | Peso Corregido: ${pc} kg\n` +
-                   `- Volumen Sanguíneo Circulante (VSC): ${vsc} mL\n\n` +
-                   `2. REPOSICIÓN HÍDRICA Y SANGRE:\n` +
-                   `- Hematocrito de Ingreso: ${htoA}%\n` +
-                   `- Pérdida Sanguínea Permisible (PSP): ${psp}\n` +
-                   `- Sangrado Estimado Transoperatorio: ${sangrado} mL\n` +
-                   `- Estimación Líquidos Totales (3h): ${fluidosTot} mL\n\n` +
-                   `3. MECÁNICA VENTILATORIA PROTECTORA:\n` +
-                   `- FR Inicial: ${frA} rpm | VT Inicial: ${vtA} mL | PaCO2: ${paco2A} mmHg\n` +
-                   `- Ajuste Sugerido por FR (Barrido CO2): ${frS}\n` +
-                   `- Ajuste Sugerido por VT (Barrido CO2): ${vtS}\n\n` +
-                   `4. EVALUACIÓN DE EXTUBACIÓN:\n` +
-                   `${statusExtub}\n\n` +
-                   `5. OBSERVACIONES Y EVENTOS PERIOPERATORIOS:\n` +
-                   `${obs}\n` +
-                   `==========================================\n` +
-                   `Generado de forma segura mediante AnestePro.`;
-        }
-
-        function copiarTextoReporte() {
-            const texto = construirCadenaReporte();
-            navigator.clipboard.writeText(texto).then(() => {
-                alert("✅ Resumen copiado. Si incluiste datos nominales, recuerda manejarlos bajo absoluta reserva académica.");
-            }).catch(err => {
-                alert("Error al copiar de manera automática.");
-            });
-        }
-
-        function guardarReportePDF() {
-            const fechaActual = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit' });
-            document.getElementById('print-fecha').innerText = `Fecha/Hora: ${fechaActual} | Sala: ${document.getElementById('numQuirofano').value || 'N/A'}`;
-            
-            const recolectaIdentidad = document.getElementById('chkHabilitarIdentidad').checked;
-            if(recolectaIdentidad) {
-                document.getElementById('print-nombre-bloque').style.display = "block";
-                document.getElementById('print-cedula-bloque').style.display = "block";
-                document.getElementById('print-nombre-val').innerText = document.getElementById('nombrePaciente').value || 'N/A';
-                document.getElementById('print-cedula-val').innerText = document.getElementById('cedulaPaciente').value || 'N/A';
-            } else {
-                document.getElementById('print-nombre-bloque').style.display = "none";
-                document.getElementById('print-cedula-bloque').style.display = "none";
-            }
-
-            document.getElementById('pestana-datos').classList.remove('hidden');
-            document.getElementById('pestana-fluidos').classList.remove('hidden');
-            document.getElementById('pestana-resp').classList.remove('hidden');
-            document.getElementById('pestana-extub').classList.remove('hidden');
-            document.getElementById('pestana-reporte').classList.remove('hidden');
-
-            window.print();
-            cambiarPestana('reporte');
-        }
-
-        window.onload = calcularTodo;
-    </script>
-</body>
-</html>
+                document.getElementById('btn-pestana-reporte').className = "py-2 rounded-
