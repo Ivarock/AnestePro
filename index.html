@@ -19,58 +19,46 @@
     <meta name="theme-color" content="#020617">
 
     <link rel="icon" type="image/png" sizes="512x512" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
-    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
     <link rel="apple-touch-icon" href="https://i.ibb.co/39xhZnjR/ICONO-ANESTEPRO.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
-        /* Optimización táctil avanzada */
+        /* Optimización móvil general */
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
-        body { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+        body { -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
         input, select, textarea { -webkit-user-select: text; user-select: text; }
         
-        /* 🌟 CORRECCIÓN CLÍNICA DEL MODO IMPRESIÓN (PDF BLANCO Y NEGRO PERFECTO) 🌟 */
+        /* 🌟 NUEVO MOTOR INFALIBLE DE PDF 🌟 */
         @media print {
-            body, html { background: white !important; color: black !important; padding: 0 !important; }
-            /* Ocultamos SOLO los botones, la navegación y advertencias irrelevantes */
-            nav, header, .no-print, button { display: none !important; }
-            .print-only { display: block !important; }
-            
-            /* Cajas de las ventanas */
-            .print-card { 
-                border: 1px solid #cbd5e1 !important; 
+            body { background: white !important; margin: 0 !important; padding: 0 !important; }
+            #app-principal { display: none !important; } /* Oculta toda la app gráfica */
+            #modal-info { display: none !important; }
+            /* Muestra únicamente la hoja de reporte médico */
+            #hoja-impresion { 
+                display: block !important; 
                 background: white !important; 
                 color: black !important; 
-                box-shadow: none !important; 
-                margin-bottom: 15px !important; 
-                page-break-inside: avoid !important;
-            }
-            
-            /* Forzar todo el texto a negro para legibilidad */
-            label, span, h2, h3, p, td, th, div { color: black !important; }
-            .print-text { color: black !important; font-weight: bold !important; font-size: 1.1em !important; }
-            
-            /* Recuperamos los inputs y selects, quitándoles el fondo negro oscuro */
-            input, select, textarea { 
-                background: white !important; 
-                color: black !important; 
-                border: 1px solid #94a3b8 !important; 
-                box-shadow: none !important;
+                font-family: monospace, 'Courier New', Courier; 
+                font-size: 13px; 
+                line-height: 1.6;
+                white-space: pre-wrap; 
+                padding: 20px; 
             }
         }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans pb-16 subpixel-antialiased">
 
-    <div class="max-w-md mx-auto px-4 py-6">
-        <header class="mb-4 text-center border-b border-slate-800 pb-3 no-print">
+    <div id="app-principal" class="max-w-md mx-auto px-4 py-6">
+        
+        <header class="mb-4 text-center border-b border-slate-800 pb-3">
             <h1 class="text-2xl font-black tracking-tight text-emerald-400">AnestePro</h1>
             <p class="text-xs text-slate-400 mt-0.5">Una herramienta de Ivarock</p>
         </header>
 
-        <nav class="grid grid-cols-5 gap-1 mb-4 bg-slate-900 p-1 rounded-xl border border-slate-800 text-[9px] font-bold no-print">
+        <nav class="grid grid-cols-5 gap-1 mb-4 bg-slate-900 p-1 rounded-xl border border-slate-800 text-[9px] font-bold">
             <button id="btn-pestana-datos" onclick="cambiarPestana('datos')" class="py-2 rounded-lg text-center bg-emerald-500 text-slate-950 transition-all duration-200">
                 👤 PACIENTE
             </button>
@@ -88,43 +76,35 @@
             </button>
         </nav>
 
-        <div class="hidden print-only text-center border-b-2 border-slate-400 pb-2 mb-4">
-            <h1 class="text-xl font-bold text-black uppercase tracking-wide">AnestePro - Resumen de Evento Quirúrgico</h1>
-            <p id="print-fecha" class="text-xs text-slate-600">Fecha de emisión: --/--/----</p>
-        </div>
-
         <div id="pestana-datos" class="space-y-4">
-            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl print-card">
-                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">Ingreso de Parámetros</h2>
-                
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
+                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">Parámetros</h2>
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Sexo (M/F)</label>
-                        <select id="sexo" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                        <select id="sexo" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" onchange="calcularTodo()">
                             <option value="M">M (Varón)</option>
                             <option value="F">F (Mujer)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Talla (m)</label>
-                        <input type="number" step="0.01" id="talla" value="1.70" inputmode="decimal" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                        <input type="number" step="0.01" id="talla" value="1.70" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Peso Real (kg)</label>
-                        <input type="number" id="pesoReal" value="80" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                        <input type="number" id="pesoReal" value="80" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Horas de Ayuno</label>
-                        <input type="number" id="ayuno" value="8" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                        <input type="number" id="ayuno" value="8" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
                 </div>
-
                 <div>
                     <label class="block text-xs text-slate-400 mb-1">Severidad Quirúrgica (Pérdidas)</label>
-                    <select id="tipoCirugia" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-emerald-500" onchange="calcularTodo()">
+                    <select id="tipoCirugia" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" onchange="calcularTodo()">
                         <option value="4">Leve (4 mL/kg/h)</option>
                         <option value="6" selected>Moderada (6 mL/kg/h)</option>
                         <option value="8">Mayor/Severa (8 mL/kg/h)</option>
@@ -132,41 +112,39 @@
                 </div>
             </section>
 
-            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl text-xs space-y-2 print-card">
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Cálculos Biométricos Derivados</h2>
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl text-xs space-y-2">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Cálculos Biométricos</h2>
                 <div class="grid grid-cols-2 gap-2 text-slate-300">
-                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Peso Ideal: <span id="out-pi" class="font-bold text-emerald-400 print-text">0</span> kg</div>
-                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Peso Corregido: <span id="out-pc" class="font-bold text-emerald-400 print-text">0</span> kg</div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Peso Ideal: <span id="out-pi" class="font-bold text-emerald-400">0</span> kg</div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Peso Corregido: <span id="out-pc" class="font-bold text-emerald-400">0</span> kg</div>
                 </div>
                 <div class="bg-slate-950 p-2 rounded border border-slate-800 text-center">
-                    Volumen Sanguíneo Circulante (VSC): <span id="out-vsc" class="font-bold text-cyan-400 print-text">0</span> mL
+                    Volumen Sanguíneo Circulante (VSC): <span id="out-vsc" class="font-bold text-cyan-400">0</span> mL
                 </div>
             </section>
         </div>
 
         <div id="pestana-fluidos" class="hidden space-y-4">
-            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl print-card">
-                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">🩸 Monitor de Sangrado &amp; PSP</h2>
-                
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
+                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">🩸 Monitor de Sangrado & PSP</h2>
                 <div class="grid grid-cols-3 gap-2 mb-3">
                     <div>
                         <label class="block text-[10px] text-slate-400 mb-1">Hto Act (%)</label>
-                        <input type="number" id="htoActual" value="40" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                        <input type="number" id="htoActual" value="40" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
                     <div>
                         <label class="block text-[10px] text-slate-400 mb-1">Hto Mín (%)</label>
-                        <input type="number" id="htoMin" value="30" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                        <input type="number" id="htoMin" value="30" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
                     <div>
-                        <label class="block text-[10px] text-slate-400 mb-1">Sangrado Est (mL)</label>
-                        <input type="number" id="sangradoEstimado" value="0" inputmode="numeric" class="w-full bg-slate-950 border border-amber-500 rounded-lg p-2 text-white text-center outline-none focus:border-amber-500 font-bold" oninput="calcularTodo()">
+                        <label class="block text-[10px] text-slate-400 mb-1">Sangrado (mL)</label>
+                        <input type="number" id="sangradoEstimado" value="0" class="w-full bg-slate-950 border border-amber-500 rounded-lg p-2 text-white text-center font-bold" oninput="calcularTodo()">
                     </div>
                 </div>
-
                 <div id="contenedor-psp" class="p-3 rounded-lg text-center transition-all duration-300 grid grid-cols-2 gap-2">
                     <div class="text-left flex flex-col justify-center">
-                        <span class="text-[10px] opacity-80 uppercase block">PSP Límite Máximo</span>
-                        <span id="resultado-psp" class="text-lg font-black text-white print-text">0 mL</span>
+                        <span class="text-[10px] opacity-80 uppercase block">PSP Máxima</span>
+                        <span id="resultado-psp" class="text-lg font-black text-white">0 mL</span>
                     </div>
                     <div id="alerta-psp" class="rounded flex items-center justify-center text-xs font-black uppercase tracking-wider px-2 py-1 bg-slate-950 border border-slate-800">
                         Calculando...
@@ -174,39 +152,39 @@
                 </div>
             </section>
 
-            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl print-card">
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
                 <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">💧 Plan Transoperatorio</h2>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
                         <thead>
                             <tr class="text-slate-400 border-b border-slate-800">
                                 <th class="py-2">Componente (mL)</th>
-                                <th class="py-2 text-center">Hora 1</th>
-                                <th class="py-2 text-center">Hora 2</th>
-                                <th class="py-2 text-center">Hora 3</th>
+                                <th class="py-2 text-center">H1</th>
+                                <th class="py-2 text-center">H2</th>
+                                <th class="py-2 text-center">H3</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800 text-slate-300">
                             <tr>
-                                <td class="py-2 font-medium">Mantenimiento (4-2-1)</td>
+                                <td class="py-2">Mant. (4-2-1)</td>
                                 <td id="mant-h1" class="text-center">0</td>
                                 <td id="mant-h2" class="text-center">0</td>
                                 <td id="mant-h3" class="text-center">0</td>
                             </tr>
                             <tr>
-                                <td class="py-2 font-medium">Pérdidas Insensibles</td>
+                                <td class="py-2">Insensibles</td>
                                 <td id="ins-h1" class="text-center">0</td>
                                 <td id="ins-h2" class="text-center">0</td>
                                 <td id="ins-h3" class="text-center">0</td>
                             </tr>
                             <tr>
-                                <td class="py-2 font-medium">Reposición Ayuno</td>
+                                <td class="py-2">Repos. Ayuno</td>
                                 <td id="ayu-h1" class="text-center">0</td>
                                 <td id="ayu-h2" class="text-center">0</td>
                                 <td id="ayu-h3" class="text-center">0</td>
                             </tr>
                             <tr class="bg-slate-950 font-bold text-emerald-400">
-                                <td class="py-2 px-1">TOTAL HORA</td>
+                                <td class="py-2">TOTAL HORA</td>
                                 <td id="tot-h1" class="text-center">0</td>
                                 <td id="tot-h2" class="text-center">0</td>
                                 <td id="tot-h3" class="text-center">0</td>
@@ -214,115 +192,107 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-400 grid grid-cols-2 gap-2">
-                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Mant. Total: <span id="out-mant-tot" class="text-slate-200 font-bold print-text">0</span> mL</div>
-                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Insensibles Tot: <span id="out-ins-tot" class="text-slate-200 font-bold print-text">0</span> mL</div>
-                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Déficit Ayuno: <span id="out-def-ayu" class="text-slate-200 font-bold print-text">0</span> mL</div>
-                    <div class="bg-emerald-950/40 border border-emerald-500/30 p-2 rounded font-bold text-emerald-400">TOTAL EST.: <span id="out-bal-tot" class="print-text">0</span> mL</div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Mant. Total: <span id="out-mant-tot" class="text-slate-200 font-bold">0</span></div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Insens. Tot: <span id="out-ins-tot" class="text-slate-200 font-bold">0</span></div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800">Déficit Ayuno: <span id="out-def-ayu" class="text-slate-200 font-bold">0</span></div>
+                    <div class="bg-emerald-950/40 border border-emerald-500/30 p-2 rounded font-bold text-emerald-400">TOTAL: <span id="out-bal-tot">0</span> mL</div>
                 </div>
             </section>
         </div>
 
         <div id="pestana-resp" class="hidden space-y-4">
-            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl print-card">
-                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">🫁 Monitor Computado Respiratorio</h2>
-                
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
+                <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">🫁 Monitor Respiratorio</h2>
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">FR Actual (rpm)</label>
-                        <input type="number" id="frActual" value="12" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                        <label class="block text-xs text-slate-400 mb-1">FR Act (rpm)</label>
+                        <input type="number" id="frActual" value="12" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Vol. Corriente Actual (mL)</label>
-                        <input type="number" id="vtActual" value="500" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500 font-bold" oninput="calcularTodo()">
+                        <label class="block text-xs text-slate-400 mb-1">VT Act (mL)</label>
+                        <input type="number" id="vtActual" value="500" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center font-bold" oninput="calcularTodo()">
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-2 text-xs mb-4">
                     <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-center">
-                        <span class="text-[10px] text-slate-400 block uppercase">Volumen Minuto Actual</span>
-                        <span id="out-ve-actual" class="text-lg font-black text-cyan-400 print-text">0.0 L/min</span>
+                        <span class="text-[10px] text-slate-400 block uppercase">Vol. Minuto</span>
+                        <span id="out-ve-actual" class="text-lg font-black text-cyan-400">0.0 L/min</span>
                     </div>
-                    <div id="card-vt-relativo" class="p-3 rounded-lg border border-slate-800 text-center transition-colors duration-300 bg-slate-950">
-                        <span class="text-[10px] text-slate-400 block uppercase">Relación Peso Ideal</span>
-                        <span id="out-vt-relativo" class="text-lg font-black text-cyan-400 print-text">0.0 mL/kg</span>
+                    <div id="card-vt-relativo" class="p-3 rounded-lg border border-slate-800 text-center bg-slate-950">
+                        <span class="text-[10px] text-slate-400 block uppercase">Rel. Peso Ideal</span>
+                        <span id="out-vt-relativo" class="text-lg font-black text-cyan-400">0.0 mL/kg</span>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-3 border-t border-slate-800 pt-3 mb-4">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">PaCO₂ Actual (mmHg)</label>
-                        <input type="number" id="paco2Actual" value="50" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                        <label class="block text-xs text-slate-400 mb-1">PaCO₂ Act (mmHg)</label>
+                        <input type="number" id="paco2Actual" value="50" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">PaCO₂ Deseada (mmHg)</label>
-                        <input type="number" id="paco2Deseada" value="40" inputmode="numeric" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center outline-none focus:border-emerald-500" oninput="calcularTodo()">
+                        <label class="block text-xs text-slate-400 mb-1">PaCO₂ Obj (mmHg)</label>
+                        <input type="number" id="paco2Deseada" value="40" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
                 </div>
-
                 <div class="border-t border-slate-800 pt-3 space-y-3">
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide">Optimización Dinámica de Capnografía</h3>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide">Ajuste Sugerido de Capnografía</h3>
                     <div class="grid grid-cols-2 gap-2 text-center text-xs">
                         <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
-                            <span class="text-[10px] text-slate-400 block uppercase font-medium">Ajustar por Frecuencia</span>
-                            <span id="resultado-fr" class="text-xl font-black text-emerald-400 block mt-1 print-text">15 rpm</span>
+                            <span class="text-[10px] text-slate-400 block">Modificar FR</span>
+                            <span id="resultado-fr" class="text-xl font-black text-emerald-400 block mt-1">15 rpm</span>
                         </div>
-                        <div id="box-opt-vt" class="p-3 rounded-xl border border-slate-800 text-center bg-slate-950 transition-colors duration-300">
-                            <span class="text-[10px] text-slate-400 block uppercase font-medium">Ajustar por Volumen</span>
-                            <span id="resultado-vt-sug" class="text-xl font-black text-emerald-400 block mt-1 print-text">625 mL</span>
+                        <div id="box-opt-vt" class="p-3 rounded-xl border border-slate-800 text-center bg-slate-950">
+                            <span class="text-[10px] text-slate-400 block">Modificar VT</span>
+                            <span id="resultado-vt-sug" class="text-xl font-black text-emerald-400 block mt-1">625 mL</span>
                         </div>
                     </div>
-                    <div id="alerta-vili" class="hidden text-center text-[11px] font-bold p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-400 animate-pulse no-print">
-                        ⚠️ Alerta: El VT sugerido excede los 8 mL/kg de protección.
+                    <div id="alerta-vili" class="hidden text-center text-[11px] font-bold p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-400">
+                        ⚠️ Alerta: El VT sugerido excede los 8 mL/kg.
                     </div>
                 </div>
             </section>
         </div>
 
         <div id="pestana-extub" class="hidden space-y-4">
-            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl print-card">
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
                 <div class="flex justify-between items-center mb-1 text-xs">
-                    <span class="text-slate-400 uppercase font-bold tracking-wider">Progreso de Evaluación</span>
-                    <span id="txt-progreso" class="font-black text-emerald-400 print-text">0%</span>
+                    <span class="text-slate-400 uppercase font-bold tracking-wider">Progreso</span>
+                    <span id="txt-progreso" class="font-black text-emerald-400">0%</span>
                 </div>
-                <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800 p-0.5 no-print">
+                <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800 p-0.5">
                     <div id="barra-progreso" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
                 </div>
-                <div id="status-extubacion" class="mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-amber-950/30 border border-amber-500/30 text-amber-400 transition-all duration-300 print-text">
+                <div id="status-extubacion" class="mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-amber-950/30 border border-amber-500/30 text-amber-400">
                     ⚠️ EVALUACIÓN EN PROGRESO
                 </div>
             </section>
-
-            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl space-y-3 text-xs no-print">
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl space-y-3 text-xs">
                 <div>
-                    <h3 class="text-emerald-400 font-bold uppercase mb-1 tracking-wide">🧠 Neurológico</h3>
-                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800 mb-1">
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 mb-1">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
                         <span>Responde órdenes simples y reflejos presentes</span>
                     </label>
                 </div>
                 <div>
-                    <h3 class="text-emerald-400 font-bold uppercase mb-1 tracking-wide">🫁 Mecánica Respiratoria</h3>
-                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800 mb-1">
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 mb-1">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
                         <span>Frecuencia regular y patrón ventilatorio confortable</span>
                     </label>
-                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800">
+                </div>
+                <div>
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 mb-1">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
                         <span>Volumen Corriente Espontáneo ≥ 5 mL/kg (<span id="req-vt-extub">0</span> mL)</span>
                     </label>
                 </div>
                 <div>
-                    <h3 class="text-emerald-400 font-bold uppercase mb-1 tracking-wide">🌡️ Homeostasis</h3>
-                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800 mb-1">
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 mb-1">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
                         <span>Oxigenación y estabilidad hemodinámica con normotermia</span>
                     </label>
                 </div>
                 <div>
-                    <h3 class="text-emerald-400 font-bold uppercase mb-1 tracking-wide">⚡ Reversión</h3>
-                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800 active:bg-slate-800">
+                    <label class="flex items-start gap-2 p-2 rounded bg-slate-950 border border-slate-800">
                         <input type="checkbox" class="chk-extub mt-0.5 accent-emerald-500 w-4 h-4" onchange="evaluarProgreso()">
                         <span>TOF > 0.9 o criterios clínicos de fuerza sostenida</span>
                     </label>
@@ -331,87 +301,70 @@
         </div>
 
         <div id="pestana-reporte" class="hidden space-y-4">
-            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl print-card">
-                <h2 class="text-sm font-bold text-amber-400 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">Metadatos del Caso</h2>
-                
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl">
+                <h2 class="text-sm font-bold text-amber-400 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">Cierre Clínico</h2>
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Quirófano / Sala</label>
-                        <input type="text" id="numQuirofano" placeholder="Ej. QX-03" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-amber-500">
+                        <label class="block text-xs text-slate-400 mb-1">Quirófano</label>
+                        <input type="text" id="numQuirofano" placeholder="Ej. QX-03" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">ID Caso Anónimo</label>
-                        <input type="text" id="idCaso" placeholder="Ej. AN-485" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white outline-none focus:border-amber-500">
+                        <label class="block text-xs text-slate-400 mb-1">ID Anónimo</label>
+                        <input type="text" id="idCaso" placeholder="Ej. AN-485" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white">
                     </div>
                 </div>
 
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 mb-4 no-print">
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 mb-4">
                     <div class="flex items-center justify-between mb-2">
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="checkbox" id="chkHabilitarIdentidad" onchange="conmutarCamposIdentidad()" class="accent-amber-500 w-4 h-4">
-                            <span class="text-xs font-bold text-slate-300">Recolectar Datos Nominales</span>
+                            <span class="text-xs font-bold text-slate-300">Datos Nominales</span>
                         </label>
-                        <button onclick="abrirModalInfo()" class="w-5 h-5 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-400 text-xs font-black flex items-center justify-center transition-colors">
+                        <button onclick="abrirModalInfo()" class="w-5 h-5 rounded-full bg-slate-800 text-amber-400 text-xs font-black flex items-center justify-center">
                             i
                         </button>
                     </div>
-                    
                     <div class="grid grid-cols-2 gap-3 transition-opacity duration-300 opacity-40" id="contenedor-campos-identidad">
                         <div>
-                            <label class="block text-[11px] text-slate-400 mb-1">Nombre Completo</label>
-                            <input type="text" id="nombrePaciente" disabled placeholder="Deshabilitado" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs outline-none focus:border-amber-500">
+                            <input type="text" id="nombrePaciente" disabled placeholder="Deshabilitado" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs">
                         </div>
                         <div>
-                            <label class="block text-[11px] text-slate-400 mb-1">Cédula de Identidad</label>
-                            <input type="text" id="cedulaPaciente" disabled placeholder="Deshabilitado" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs outline-none focus:border-amber-500">
+                            <input type="text" id="cedulaPaciente" disabled placeholder="Deshabilitado" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white text-xs">
                         </div>
                     </div>
                 </div>
 
-                <div class="hidden print-only text-slate-900 text-xs space-y-1 mb-3 bg-slate-100 p-2 rounded border border-slate-300">
-                    <div id="print-nombre-bloque"><strong>Nombre del Paciente:</strong> <span id="print-nombre-val">N/A</span></div>
-                    <div id="print-cedula-bloque"><strong>Cédula de Identidad:</strong> <span id="print-cedula-val">N/A</span></div>
-                </div>
-
                 <div>
-                    <label class="block text-xs text-slate-400 mb-1">Complicaciones / Observaciones Especiales</label>
-                    <textarea id="observaciones" rows="2" placeholder="Ej. Vía aérea difícil grado II, laringoespasmo transitorio al ingreso..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs outline-none focus:border-amber-500"></textarea>
+                    <label class="block text-xs text-slate-400 mb-1">Observaciones Especiales</label>
+                    <textarea id="observaciones" rows="2" placeholder="Ej. Vía aérea difícil..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs"></textarea>
                 </div>
             </section>
 
-            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl text-center space-y-3 no-print">
-                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wide">Acciones Clínicas de Respaldo</h3>
-                
-                <button onclick="copiarTextoReporte()" class="w-full bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 text-white font-bold py-3 px-4 rounded-xl transition-all text-xs tracking-wider flex items-center justify-center gap-2">
-                    📋 COPIAR RESUMEN DE TEXTO
+            <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl text-center space-y-3">
+                <button onclick="copiarTextoReporte()" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 rounded-xl text-xs flex justify-center gap-2">
+                    📋 COPIAR RESUMEN 
                 </button>
-
-                <button onclick="guardarReportePDF()" class="w-full bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-slate-950 font-black py-3 px-4 rounded-xl transition-all text-xs tracking-wider flex items-center justify-center gap-2">
-                    📄 EXPORTAR / IMPRIMIR PDF
+                <button onclick="guardarReportePDF()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3 rounded-xl text-xs flex justify-center gap-2">
+                    📄 EXPORTAR PDF
                 </button>
-                
-                <p class="text-[10px] text-slate-500 leading-tight">Nota: Los datos se procesan localmente en el procesador de tu terminal. Al presionar exportar o cambiar de paciente, el caché temporal se limpia de forma segura.</p>
             </section>
         </div>
+    </div> <div id="hoja-impresion" class="hidden"></div>
 
-    </div>
-
-    <div id="modal-info" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 no-print">
+    <div id="modal-info" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-5 shadow-2xl text-center">
-            <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mx-auto mb-3 font-black text-lg">
-                !
-            </div>
-            <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-2">Aviso de Privacidad y Docencia</h3>
-            <p class="text-xs text-slate-400 leading-relaxed mb-4 text-justify">
-                La recolección de nombres y cédulas de identidad dentro de este dispositivo se realiza <strong>únicamente con fines educativos, estadísticos y de investigación clínica</strong>. Queda prohibido el uso comercial o la divulgación no autorizada de estos datos en cumplimiento con el secreto médico profesional.
-            </p>
-            <button onclick="cerrarModalInfo()" class="w-full bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-200 font-bold py-2 rounded-xl text-xs tracking-wide transition-all">
-                ENTENDIDO Y ACEPTADO
-            </button>
+            <h3 class="text-sm font-bold text-slate-200 uppercase mb-2">Privacidad / Docencia</h3>
+            <p class="text-xs text-slate-400 mb-4">Los datos nominales son de uso estricto para investigación/docencia.</p>
+            <button onclick="cerrarModalInfo()" class="w-full bg-slate-800 text-slate-200 font-bold py-2 rounded-xl text-xs">ACEPTADO</button>
         </div>
     </div>
 
     <script>
+        // Rastreador de errores de sistema infalible
+        window.onerror = function(msg, url, line) {
+            alert("🏥 ALERTA AnestePro: Error en línea " + line + ".\nMotivo: " + msg + "\nSolución: Por favor revisa que usaste el botón 'Copiar' para llevarte todo el código completo desde GitHub.");
+        };
+
         function cambiarPestana(id) {
             document.getElementById('pestana-datos').classList.add('hidden');
             document.getElementById('pestana-fluidos').classList.add('hidden');
@@ -419,24 +372,197 @@
             document.getElementById('pestana-extub').classList.add('hidden');
             document.getElementById('pestana-reporte').classList.add('hidden');
 
-            document.getElementById('btn-pestana-datos').className = "py-2 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200";
-            document.getElementById('btn-pestana-fluidos').className = "py-2 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200";
-            document.getElementById('btn-pestana-resp').className = "py-2 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200";
-            document.getElementById('btn-pestana-extub').className = "py-2 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200";
-            document.getElementById('btn-pestana-reporte').className = "py-2 rounded-lg text-center text-slate-400 hover:text-slate-200 transition-all duration-200";
+            document.getElementById('btn-pestana-datos').className = "py-2 rounded-lg text-center text-slate-400 transition-all";
+            document.getElementById('btn-pestana-fluidos').className = "py-2 rounded-lg text-center text-slate-400 transition-all";
+            document.getElementById('btn-pestana-resp').className = "py-2 rounded-lg text-center text-slate-400 transition-all";
+            document.getElementById('btn-pestana-extub').className = "py-2 rounded-lg text-center text-slate-400 transition-all";
+            document.getElementById('btn-pestana-reporte').className = "py-2 rounded-lg text-center text-slate-400 transition-all";
 
-            if (id === 'datos') {
-                document.getElementById('pestana-datos').classList.remove('hidden');
-                document.getElementById('btn-pestana-datos').className = "py-2 rounded-lg text-center bg-emerald-500 text-slate-950 font-bold";
-            } else if (id === 'fluidos') {
-                document.getElementById('pestana-fluidos').classList.remove('hidden');
-                document.getElementById('btn-pestana-fluidos').className = "py-2 rounded-lg text-center bg-emerald-500 text-slate-950 font-bold";
-            } else if (id === 'resp') {
-                document.getElementById('pestana-resp').classList.remove('hidden');
-                document.getElementById('btn-pestana-resp').className = "py-2 rounded-lg text-center bg-emerald-500 text-slate-950 font-bold";
-            } else if (id === 'extub') {
-                document.getElementById('pestana-extub').classList.remove('hidden');
-                document.getElementById('btn-pestana-extub').className = "py-2 rounded-lg text-center bg-emerald-500 text-slate-950 font-bold";
-            } else if (id === 'reporte') {
-                document.getElementById('pestana-reporte').classList.remove('hidden');
-                document.getElementById('btn-pestana-reporte').className = "py-2 rounded-
+            document.getElementById('pestana-' + id).classList.remove('hidden');
+            let colorClase = (id === 'reporte') ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-emerald-500 text-slate-950 font-bold';
+            document.getElementById('btn-pestana-' + id).className = "py-2 rounded-lg text-center transition-all " + colorClase;
+        }
+
+        function abrirModalInfo() { document.getElementById('modal-info').classList.remove('hidden'); }
+        function cerrarModalInfo() { document.getElementById('modal-info').classList.add('hidden'); }
+
+        function conmutarCamposIdentidad() {
+            const check = document.getElementById('chkHabilitarIdentidad');
+            const contenedor = document.getElementById('contenedor-campos-identidad');
+            const txtNom = document.getElementById('nombrePaciente');
+            const txtCed = document.getElementById('cedulaPaciente');
+
+            if(check.checked) {
+                contenedor.classList.remove('opacity-40');
+                txtNom.disabled = false; txtCed.disabled = false;
+                abrirModalInfo();
+            } else {
+                contenedor.classList.add('opacity-40');
+                txtNom.disabled = true; txtCed.disabled = true;
+                txtNom.value = ""; txtCed.value = "";
+            }
+        }
+
+        function evaluarProgreso() {
+            const chks = document.querySelectorAll('.chk-extub');
+            let marcados = 0; chks.forEach(c => { if(c.checked) marcados++; });
+            const porc = Math.round((marcados / chks.length) * 100);
+            
+            document.getElementById('txt-progreso').innerText = porc + "%";
+            document.getElementById('barra-progreso').style.width = porc + "%";
+            const stat = document.getElementById('status-extubacion');
+
+            if(porc === 100) {
+                stat.className = "mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-emerald-500 text-slate-950";
+                stat.innerText = "✅ APTO PARA EXTUBACIÓN";
+            } else {
+                stat.className = "mt-3 text-center text-xs font-black p-2.5 rounded-lg bg-amber-950/30 text-amber-400";
+                stat.innerText = "⚠️ EVALUACIÓN EN PROGRESO";
+            }
+        }
+
+        function calcularTodo() {
+            try {
+                const sexo = document.getElementById('sexo').value;
+                const talla = parseFloat(document.getElementById('talla').value) || 0;
+                const pesoReal = parseFloat(document.getElementById('pesoReal').value) || 0;
+                const ayuno = parseFloat(document.getElementById('ayuno').value) || 0;
+                const tasaInsens = parseFloat(document.getElementById('tipoCirugia').value) || 0;
+                
+                const htoAct = parseFloat(document.getElementById('htoActual').value) || 0;
+                const htoMin = parseFloat(document.getElementById('htoMin').value) || 0;
+                const sangrado = parseFloat(document.getElementById('sangradoEstimado').value) || 0;
+
+                const frAct = parseFloat(document.getElementById('frActual').value) || 0;
+                const vtAct = parseFloat(document.getElementById('vtActual').value) || 0;
+                const paco2Act = parseFloat(document.getElementById('paco2Actual').value) || 0;
+                const paco2Des = parseFloat(document.getElementById('paco2Deseada').value) || 0;
+
+                // 1. Biometría
+                const imcObj = (sexo === 'M') ? 22 : 21.5;
+                const pi = (talla * talla) * imcObj;
+                const pc = pi + 0.25 * (pesoReal - pi);
+                const imcR = pesoReal / (talla * talla);
+                const pesoCalc = (imcR >= 30) ? pc : pesoReal;
+
+                document.getElementById('out-pi').innerText = pi.toFixed(2);
+                document.getElementById('out-pc').innerText = pc.toFixed(2);
+                document.getElementById('req-vt-extub').innerText = Math.round(pi * 5);
+
+                const vsc = pesoReal * ((sexo === 'M') ? 70 : 60);
+                document.getElementById('out-vsc').innerText = Math.round(vsc);
+
+                // 2. Sangrado
+                let psp = (htoAct > 0) ? ((htoAct - htoMin) / htoAct) * vsc : 0;
+                psp = Math.max(0, Math.round(psp));
+                document.getElementById('resultado-psp').innerText = psp + " mL";
+                
+                const boxPsp = document.getElementById('contenedor-psp');
+                const alerPsp = document.getElementById('alerta-psp');
+                if (sangrado === 0) {
+                    boxPsp.className = "p-3 rounded-lg text-center grid grid-cols-2 gap-2 bg-slate-950/40 text-slate-300";
+                    alerPsp.className = "rounded text-xs font-bold px-2 py-1 bg-slate-900 text-slate-400 flex items-center justify-center";
+                    alerPsp.innerText = "Sin Sangrado";
+                } else if (sangrado <= psp) {
+                    boxPsp.className = "p-3 rounded-lg text-center grid grid-cols-2 gap-2 bg-emerald-950/40 text-emerald-200";
+                    alerPsp.className = "rounded text-xs font-black px-2 py-1 bg-emerald-500 text-slate-950 flex items-center justify-center";
+                    alerPsp.innerText = "Dentro PSP";
+                } else {
+                    boxPsp.className = "p-3 rounded-lg text-center grid grid-cols-2 gap-2 bg-red-950/60 text-red-200";
+                    alerPsp.className = "rounded text-xs font-black px-2 py-1 bg-red-500 text-white flex items-center justify-center";
+                    alerPsp.innerText = "⚠️ EXCEDE";
+                }
+
+                // 3. Fluidos
+                let mant = 0;
+                if (pesoCalc <= 10) mant = pesoCalc * 4;
+                else if (pesoCalc <= 20) mant = 40 + (pesoCalc - 10) * 2;
+                else mant = 60 + (pesoCalc - 20);
+                mant = Math.round(mant);
+
+                const insens = Math.round(tasaInsens * pesoCalc);
+                const defAyu = mant * ayuno;
+                const aH1 = Math.round(defAyu * 0.50);
+                const aH2 = Math.round(defAyu * 0.25);
+                const aH3 = Math.round(defAyu * 0.25);
+
+                document.getElementById('mant-h1').innerText = mant; document.getElementById('mant-h2').innerText = mant; document.getElementById('mant-h3').innerText = mant;
+                document.getElementById('ins-h1').innerText = insens; document.getElementById('ins-h2').innerText = insens; document.getElementById('ins-h3').innerText = insens;
+                document.getElementById('ayu-h1').innerText = aH1; document.getElementById('ayu-h2').innerText = aH2; document.getElementById('ayu-h3').innerText = aH3;
+                
+                document.getElementById('tot-h1').innerText = mant + insens + aH1;
+                document.getElementById('tot-h2').innerText = mant + insens + aH2;
+                document.getElementById('tot-h3').innerText = mant + insens + aH3;
+
+                document.getElementById('out-mant-tot').innerText = mant * 3;
+                document.getElementById('out-ins-tot').innerText = insens * 3;
+                document.getElementById('out-def-ayu').innerText = defAyu;
+                document.getElementById('out-bal-tot').innerText = (mant * 3) + (insens * 3) + defAyu;
+
+                // 4. Ventilación
+                document.getElementById('out-ve-actual').innerText = ((frAct * vtAct) / 1000).toFixed(2) + " L/min";
+                const vtRel = (pi > 0) ? (vtAct / pi) : 0;
+                document.getElementById('out-vt-relativo').innerText = vtRel.toFixed(1) + " mL/kg";
+
+                if (paco2Des > 0 && frAct > 0 && vtAct > 0) {
+                    const frSug = Math.round(frAct * (paco2Act / paco2Des));
+                    const vtSug = Math.round(vtAct * (paco2Act / paco2Des));
+                    document.getElementById('resultado-fr').innerText = frSug + " rpm";
+                    document.getElementById('resultado-vt-sug').innerText = vtSug + " mL";
+                    
+                    if ((pi > 0 && (vtSug / pi) > 8)) {
+                        document.getElementById('alerta-vili').classList.remove('hidden');
+                    } else {
+                        document.getElementById('alerta-vili').classList.add('hidden');
+                    }
+                }
+            } catch(e) {
+                console.error("AnestePro Log:", e);
+            }
+        }
+
+        function construirCadenaReporte() {
+            const f = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute:'2-digit' });
+            let textoID = "";
+            if(document.getElementById('chkHabilitarIdentidad').checked) {
+                textoID = `* PACIENTE: ${document.getElementById('nombrePaciente').value}\n* CÉDULA: ${document.getElementById('cedulaPaciente').value}\n[USO MÉDICO/DOCENTE EXCLUSIVO]\n\n`;
+            }
+            
+            return `==========================================\n` +
+                   `        REPORTE CLÍNICO - ANESTEPRO       \n` +
+                   `==========================================\n` +
+                   `Fecha/Hora: ${f}\n` +
+                   `Sala/Quirófano: ${document.getElementById('numQuirofano').value}\n` +
+                   `ID del Caso: ${document.getElementById('idCaso').value}\n\n` +
+                   textoID +
+                   `1. BIOMETRÍA DEL PACIENTE:\n` +
+                   `- Sexo: ${document.getElementById('sexo').value} | Talla: ${document.getElementById('talla').value} m | Peso Real: ${document.getElementById('pesoReal').value} kg\n` +
+                   `- Peso Ideal Calc: ${document.getElementById('out-pi').innerText} kg | Peso Corregido: ${document.getElementById('out-pc').innerText} kg\n` +
+                   `- VSC Estimado: ${document.getElementById('out-vsc').innerText} mL\n\n` +
+                   `2. REPOSICIÓN HÍDRICA Y SANGRE:\n` +
+                   `- Hto Inicial: ${document.getElementById('htoActual').value}% | PSP: ${document.getElementById('resultado-psp').innerText}\n` +
+                   `- Sangrado Transoperatorio: ${document.getElementById('sangradoEstimado').value} mL\n` +
+                   `- Plan de Líquidos Totales (3h): ${document.getElementById('out-bal-tot').innerText} mL\n\n` +
+                   `3. MECÁNICA VENTILATORIA PROTECTORA:\n` +
+                   `- FR Inicial: ${document.getElementById('frActual').value} rpm | VT Inicial: ${document.getElementById('vtActual').value} mL\n` +
+                   `- Sugerencia FR por CO2: ${document.getElementById('resultado-fr').innerText}\n\n` +
+                   `4. EVALUACIÓN DE EXTUBACIÓN:\n` +
+                   `${document.getElementById('status-extubacion').innerText}\n\n` +
+                   `5. EVENTOS PERIOPERATORIOS:\n` +
+                   `${document.getElementById('observaciones').value}\n` +
+                   `==========================================`;
+        }
+
+        function copiarTextoReporte() {
+            navigator.clipboard.writeText(construirCadenaReporte()).then(() => alert("✅ Reporte clínico copiado al portapapeles."));
+        }
+
+        function guardarReportePDF() {
+            document.getElementById('hoja-impresion').innerText = construirCadenaReporte();
+            window.print();
+        }
+
+        window.onload = calcularTodo;
+    </script>
+</body>
+</html>
