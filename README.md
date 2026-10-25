@@ -25,10 +25,12 @@ Alerta de VILI: Analiza si el Volumen Corriente (VT) que pusiste en el ventilado
 
 Corrección de CO2: Si la gasometría o el capnógrafo muestran niveles alterados, solo debes ingresar tu PaCO2 actual y la deseada. El sistema te dirá exactamente a qué Frecuencia Respiratoria o a qué Volumen debes ajustar el ventilador para "barrer" el CO2 de forma óptima.
 
+Validación de datos: si un valor está fuera de rango (por ejemplo, la talla escrita en centímetros en lugar de metros) el campo se marca en rojo y aparece un aviso indicando en qué pestaña revisar.
+
 Nota de Seguridad: AnestePro procesa todos los algoritmos localmente en el procesador de tu dispositivo. Al recargar la página, la memoria temporal se limpia de forma irreversible, protegiendo la confidencialidad de cada acto quirúrgico.
 
 📲 Instalación en el teléfono (modo sin conexión)
-AnestePro es una PWA instalable. Ábrela una vez con internet desde https://ivarock.github.io/AnestePro/ y luego:
+AnestePro es una PWA instalable. Ábrela una vez con internet desde https://ivarock.github.io/AnestePro/ y toca el botón "📲 Instalar AnestePro" que aparece arriba, o hazlo manualmente:
 
 Android (Chrome): menú ⋮ → "Instalar aplicación" o "Agregar a pantalla principal".
 

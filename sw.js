@@ -1,7 +1,7 @@
 // AnestePro — Service Worker (modo sin conexión)
 // Al publicar cambios en la app, sube el número de versión para que los teléfonos descarguen la nueva.
-const VERSION = 'anestepro-v2';
-const ARCHIVOS = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
+const VERSION = 'anestepro-v3';
+const ARCHIVOS = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'icon-maskable-512.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(ARCHIVOS)).then(() => self.skipWaiting()));
