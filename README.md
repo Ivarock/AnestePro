@@ -36,3 +36,12 @@ Generación de Expediente: Permite anotar el quirófano, incidencias del caso y,
 Exportación Inmediata: Con un solo botón, procesa todas las ventanas anteriores y genera un Resumen Estructurado que puedes copiar y pegar en el sistema informático del hospital, o te permite exportar un PDF limpio y formal listo para imprimir o adjuntar al expediente médico legal.
 
 Nota de Seguridad: AnestePro procesa todos los algoritmos localmente en el procesador de tu dispositivo. Al recargar la página, la memoria temporal se limpia de forma irreversible, protegiendo la confidencialidad de cada acto quirúrgico.
+
+📲 Instalación en el teléfono (modo sin conexión)
+AnestePro es una PWA instalable. Ábrela una vez con internet desde https://ivarock.github.io/AnestePro/ y luego:
+
+Android (Chrome): menú ⋮ → "Instalar aplicación" o "Agregar a pantalla principal".
+
+iPhone (Safari): botón Compartir → "Agregar a inicio".
+
+Desde ese momento funciona completamente sin internet. Todos los estilos y el código van dentro de la app: no se carga nada de servidores externos y no hay analíticas ni rastreadores.
