@@ -40,3 +40,10 @@ Android (Chrome): menú ⋮ → "Instalar aplicación" o "Agregar a pantalla pri
 iPhone (Safari): botón Compartir → "Agregar a inicio".
 
 Desde ese momento funciona completamente sin internet. Todos los estilos y el código van dentro de la app: no se carga nada de servidores externos y no hay analíticas ni rastreadores.
+
+👨‍⚕️ Autor
+Dr. Ivanov Cruz Correa — Médico con especialización en curso de Anestesiología y Reanimación.
+
+Instagram: https://www.instagram.com/ivarock/
+
+Redes: https://linktr.ee/Ivarock
