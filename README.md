@@ -2,7 +2,7 @@
 ¿Qué es AnestePro?
 AnestePro es una aplicación web progresiva diseñada para asistir al anestesiólogo durante el manejo perioperatorio. Funciona como un "segundo cerebro" que automatiza todos los cálculos matemáticos de biometría, líquidos y ventilación, permitiendo al profesional tomar decisiones rápidas y seguras bajo estrés, sin depender de la memoria. Funciona 100% sin internet y no almacena datos en la nube, garantizando el secreto médico.
 
-La herramienta está dividida en 3 módulos cronológicos que siguen el flujo real de una cirugía:
+La herramienta está dividida en 3 módulos cronológicos, más una pestaña de fórmulas que siguen el flujo real de una cirugía:
 
 1. Módulo de Paciente (👤 PACIENTE)
 Es el punto de partida. Al ingresar el peso, talla y horas de ayuno, el sistema no solo calcula el Índice de Masa Corporal (IMC), sino que automatiza los pesos farmacológicos vitales:
@@ -24,6 +24,9 @@ Una calculadora dinámica para evitar el barotrauma y optimizar la capnografía.
 Alerta de VILI: Analiza si el Volumen Corriente (VT) que pusiste en el ventilador supera los 8 mL/kg de protección para ese paciente específico.
 
 Corrección de CO2: Si la gasometría o el capnógrafo muestran niveles alterados, solo debes ingresar tu PaCO2 actual y la deseada. El sistema te dirá exactamente a qué Frecuencia Respiratoria o a qué Volumen debes ajustar el ventilador para "barrer" el CO2 de forma óptima.
+
+4. Fórmulas (📖 FÓRMULAS)
+Explica paso a paso cómo se obtiene cada resultado (peso ideal y corregido, VSC, PSP, regla 4-2-1, ayuno, insensibles, volumen minuto y ajuste de CO2), con un ejemplo en vivo calculado con los datos ingresados y las referencias bibliográficas.
 
 Validación de datos: si un valor está fuera de rango (por ejemplo, la talla escrita en centímetros en lugar de metros) el campo se marca en rojo y aparece un aviso indicando en qué pestaña revisar.
 
