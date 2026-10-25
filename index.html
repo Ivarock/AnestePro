@@ -63,34 +63,40 @@
                 <h2 class="text-sm font-bold text-slate-300 mb-3 uppercase tracking-wider border-b border-slate-800 pb-1">Parámetros</h2>
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
+                        <label class="block text-xs text-slate-400 mb-1">Edad (años)</label>
+                        <input type="number" id="edad" value="40" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
+                    </div>
+                    <div>
                         <label class="block text-xs text-slate-400 mb-1">Sexo (M/F)</label>
                         <select id="sexo" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" onchange="calcularTodo()">
                             <option value="M">M (Varón)</option>
                             <option value="F">F (Mujer)</option>
                         </select>
                     </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Talla (m)</label>
                         <input type="number" step="0.01" id="talla" value="1.70" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Peso Real (kg)</label>
                         <input type="number" id="pesoReal" value="80" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Horas de Ayuno</label>
                         <input type="number" id="ayuno" value="8" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-center" oninput="calcularTodo()">
                     </div>
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">Severidad Quirúrgica (Pérdidas)</label>
-                    <select id="tipoCirugia" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" onchange="calcularTodo()">
-                        <option value="4">Leve (4 mL/kg/h)</option>
-                        <option value="6" selected>Moderada (6 mL/kg/h)</option>
-                        <option value="8">Mayor/Severa (8 mL/kg/h)</option>
-                    </select>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Pérdidas (mL/kg/h)</label>
+                        <select id="tipoCirugia" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" onchange="calcularTodo()">
+                            <option value="4">Leve (4)</option>
+                            <option value="6" selected>Moderada (6)</option>
+                            <option value="8">Mayor (8)</option>
+                        </select>
+                    </div>
                 </div>
             </section>
 
@@ -251,8 +257,9 @@
                 </div>
                 <div class="space-y-1">
                     <h3 class="font-bold text-emerald-400">Peso corregido (PC)</h3>
-                    <p class="font-mono bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200">PC = PI + 0.25 × (Peso real − PI)</p>
+                    <p class="font-mono bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200">PC = PI + 0.4 × (Peso real − PI)</p>
                     <p class="text-slate-300">Con tus datos: <span id="f-pc" class="font-mono font-bold text-cyan-400">—</span></p>
+                    <p class="text-slate-400 leading-relaxed">Factor 0.4 de Bauer et al., el más usado para el peso de dosificación en obesidad.</p>
                 </div>
                 <div class="space-y-1">
                     <h3 class="font-bold text-emerald-400">IMC y peso para líquidos</h3>
@@ -262,8 +269,9 @@
                 </div>
                 <div class="space-y-1">
                     <h3 class="font-bold text-emerald-400">Volumen sanguíneo circulante (VSC)</h3>
-                    <p class="font-mono bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200">VSC = Peso real × 70 mL/kg (varón)<br>VSC = Peso real × 60 mL/kg (mujer)</p>
+                    <p class="font-mono bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200">VSC = Peso real × 75 mL/kg (varón)<br>VSC = Peso real × 65 mL/kg (mujer)</p>
                     <p class="text-slate-300">Con tus datos: <span id="f-vsc" class="font-mono font-bold text-cyan-400">—</span></p>
+                    <p class="text-slate-400 leading-relaxed">Valores para adultos de Morgan &amp; Mikhail (basados en Nadler et al.).</p>
                 </div>
             </section>
 
@@ -325,10 +333,13 @@
 
             <section class="p-4 rounded-xl bg-slate-900 border border-slate-800 shadow-xl text-xs space-y-2">
                 <h2 class="text-sm font-bold text-slate-300 uppercase tracking-wider border-b border-slate-800 pb-1">Referencias</h2>
+                <p class="text-slate-400 leading-relaxed">• Bauer LA, Edwards WA, Dellinger EP, Simonowitz DA. Influence of weight on aminoglycoside pharmacokinetics in normal weight and morbidly obese patients. <i>Eur J Clin Pharmacol</i>. 1983;24:643-7. (Peso corregido, factor 0.4)</p>
+                <p class="text-slate-400 leading-relaxed">• Butterworth JF, Mackey DC, Wasnick JD. <i>Morgan &amp; Mikhail's Clinical Anesthesiology</i>. 5.ª ed. McGraw-Hill; 2013. (VSC: 75 mL/kg varón, 65 mL/kg mujer)</p>
+                <p class="text-slate-400 leading-relaxed">• Nadler SB, Hidalgo JU, Bloch T. Prediction of blood volume in normal human adults. <i>Surgery</i>. 1962;51:224-32. (VSC)</p>
                 <p class="text-slate-400 leading-relaxed">• Holliday MA, Segar WE. The maintenance need for water in parenteral fluid therapy. <i>Pediatrics</i>. 1957;19:823-32. (Regla 4-2-1)</p>
                 <p class="text-slate-400 leading-relaxed">• Gross JB. Estimating allowable blood loss: corrected for dilution. <i>Anesthesiology</i>. 1983;58:277-80. (PSP)</p>
                 <p class="text-slate-400 leading-relaxed">• The Acute Respiratory Distress Syndrome Network. Ventilation with lower tidal volumes as compared with traditional tidal volumes. <i>N Engl J Med</i>. 2000;342:1301-8. (VT protector por peso ideal)</p>
-                <p class="text-amber-400 font-bold leading-relaxed pt-1">AnestePro es una herramienta de apoyo: no sustituye el juicio clínico del anestesiólogo.</p>
+                <p class="text-amber-400 font-bold leading-relaxed pt-1">AnestePro está diseñada para pacientes adultos y es una herramienta de apoyo: no sustituye el juicio clínico del anestesiólogo.</p>
             </section>
         </div>
     </div>
@@ -356,6 +367,8 @@
 
         // ===== Validación de datos =====
         const REGLAS = [
+            { id: 'edad', tab: 'Paciente', min: 0, max: 120, msg: () => 'Edad fuera de rango (0 – 120 años).',
+              extra: v => v < 18 ? 'Paciente menor de 18 años: AnestePro está diseñada para adultos. El peso ideal por IMC, la VSC y el peso corregido no son válidos en pediatría.' : null },
             { id: 'talla', tab: 'Paciente', min: 0.40, max: 2.30, msg: v => v > 3 ? 'Parece estar en centímetros: escribe la talla en metros (ej. 1.70).' : 'Talla fuera de rango (0.40 – 2.30 m).' },
             { id: 'pesoReal', tab: 'Paciente', min: 2, max: 300, msg: () => 'Peso fuera de rango (2 – 300 kg).' },
             { id: 'ayuno', tab: 'Paciente', min: 0, max: 48, msg: () => 'Ayuno fuera de rango (0 – 48 h).' },
@@ -419,14 +432,14 @@
                 // 1. Biometría
                 const imcObj = (sexo === 'M') ? 22 : 21.5;
                 const pi = (talla * talla) * imcObj;
-                const pc = pi + 0.25 * (pesoReal - pi);
+                const pc = pi + 0.4 * (pesoReal - pi);
                 const imcR = pesoReal / (talla * talla);
                 const pesoCalc = (imcR >= 30) ? pc : pesoReal;
 
                 document.getElementById('out-pi').innerText = pi.toFixed(2);
                 document.getElementById('out-pc').innerText = pc.toFixed(2);
 
-                const vsc = pesoReal * ((sexo === 'M') ? 70 : 60);
+                const vsc = pesoReal * ((sexo === 'M') ? 75 : 65);
                 document.getElementById('out-vsc').innerText = Math.round(vsc);
 
                 // 2. Sangrado
@@ -508,9 +521,9 @@
             const pc = n(d.pesoCalc, 1);
 
             fijar('f-pi', `${n(d.talla, 2)}² × ${d.imcObj} = ${n(d.pi, 2)} kg`);
-            fijar('f-pc', `${n(d.pi, 2)} + 0.25 × (${n(d.pesoReal, 1)} − ${n(d.pi, 2)}) = ${n(d.pc, 2)} kg`);
+            fijar('f-pc', `${n(d.pi, 2)} + 0.4 × (${n(d.pesoReal, 1)} − ${n(d.pi, 2)}) = ${n(d.pc, 2)} kg`);
             fijar('f-imc', `${n(d.pesoReal, 1)} ÷ ${n(d.talla, 2)}² = ${n(d.imcR, 1)} → ${d.imcR >= 30 ? 'peso corregido' : 'peso real'} (${pc} kg)`);
-            fijar('f-vsc', `${n(d.pesoReal, 1)} × ${d.sexo === 'M' ? 70 : 60} = ${n(d.vsc)} mL`);
+            fijar('f-vsc', `${n(d.pesoReal, 1)} × ${d.sexo === 'M' ? 75 : 65} = ${n(d.vsc)} mL`);
 
             fijar('f-psp', `${n(d.vsc)} × (${n(d.htoAct)} − ${n(d.htoMin)}) ÷ ${n(d.htoAct)} = ${d.psp} mL`);
             let txtMant;

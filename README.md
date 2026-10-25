@@ -28,7 +28,7 @@ Corrección de CO2: Si la gasometría o el capnógrafo muestran niveles alterado
 4. Fórmulas (📖 FÓRMULAS)
 Explica paso a paso cómo se obtiene cada resultado (peso ideal y corregido, VSC, PSP, regla 4-2-1, ayuno, insensibles, volumen minuto y ajuste de CO2), con un ejemplo en vivo calculado con los datos ingresados y las referencias bibliográficas.
 
-Validación de datos: si un valor está fuera de rango (por ejemplo, la talla escrita en centímetros en lugar de metros) el campo se marca en rojo y aparece un aviso indicando en qué pestaña revisar.
+Validación de datos: si un valor está fuera de rango (por ejemplo, la talla escrita en centímetros en lugar de metros, o una edad menor de 18 años, ya que la app está diseñada para adultos) el campo se marca en rojo y aparece un aviso indicando en qué pestaña revisar.
 
 Nota de Seguridad: AnestePro procesa todos los algoritmos localmente en el procesador de tu dispositivo. Al recargar la página, la memoria temporal se limpia de forma irreversible, protegiendo la confidencialidad de cada acto quirúrgico.
 
